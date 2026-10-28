@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "cosi:maintenance-document-payload:1.0",
+  "title": "COSI — Maintenance Document Payload",
+  "description": "Payload for maintenance-document messages (assetClass=maintenance-document). Carries manual PDF links and recurring service task definitions for one machine component.",
+  "type": "object",
+  "required": ["componentId", "manualDocs", "serviceTasks"],
+
+  "$defs": {
+
+    "DocumentRef": {
+      "description": "Pointer to a document in an external system or file store.",
+      "type": "object",
+      "required": ["uniqueRef", "documentLink"],
+      "properties": {
+        "uniqueRef":    { "type": "string", "minLength": 1, "description": "Stable unique identifier for this document across systems." },
+        "documentLink": { "type": "string", "minLength": 1, "description": "URI or file-system path to a locally accessible document. The reference does not authorize bypassing the IT/OT boundary." }
+      },
+      "additionalProperties": false
+    }
+
+  },
+
+  "properties": {
+
+    "componentId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier of the machine component this document record belongs to."
+    },
+
+    "manualDocs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["documentRef", "validFrom"],
+        "properties": {
+          "documentRef": { "$ref": "#/$defs/DocumentRef" },
+          "validFrom": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 UTC date from which this document version is valid."
+          }
+        },
+        "additionalProperties": false
+      },
+      "description": "Maintenance manual documents for this component, ordered by document type or relevance."
+    },
+
+    "serviceTasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["taskId", "frequency", "counterSource", "documentRef"],
+        "properties": {
+          "taskId": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Unique identifier for this service task."
+          },
+          "frequency": {
+            "type": "object",
+            "required": ["value", "uom"],
+            "properties": {
+              "value": { "type": "number", "exclusiveMinimum": 0, "description": "Numeric interval after which the task must be performed." },
+              "uom": {
+                "type": "string",
+                "enum": ["h", "m²", "pcs", "cycles"],
+                "description": "Counter unit: h = machine runtime hours; m² = board area produced; pcs = pieces produced; cycles = machine cycles."
+              }
+            },
+            "additionalProperties": false
+          },
+          "counterSource": {
+            "type": "string",
+            "description": "Name of the machine counter used to track frequency."
+          },
+          "documentRef": { "$ref": "#/$defs/DocumentRef" }
+        },
+        "additionalProperties": false
+      },
+      "description": "Recurring service tasks for this component, each with a frequency trigger and reference to the task instruction document."
+    }
+
+  },
+
+  "additionalProperties": false
+}

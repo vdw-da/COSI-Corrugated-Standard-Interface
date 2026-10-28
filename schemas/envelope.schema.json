@@ -1,0 +1,263 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "cosi:envelope:1.0",
+  "title": "COSI — Message Envelope",
+  "description": "Top-level wrapper for all COSI messages. Common fields are validated here; the payload is validated against the schema that matches assetClass.",
+  "type": "object",
+  "required": [
+    "messageID",
+    "assetClass",
+    "schemaId",
+    "messageType",
+    "machineId",
+    "timestamp",
+    "status",
+    "payload"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "messageID": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-5[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "description": "Globally unique UUID v5 for this message instance. Producers allocate distinct generation inputs for distinct instances, even with identical content. Retries and replays preserve the assigned ID, including across restart; UUID v5 alone does not ensure uniqueness or de-duplication."
+    },
+    "correlationID": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-5[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "description": "UUID v5 linking related messages. Required on setup-response: the messageID of the original setup request."
+    },
+    "assetClass": {
+      "type": "string",
+      "enum": [
+        "performance",
+        "setup-corrugator",
+        "setup-converting",
+        "setup-response",
+        "maintenance-document",
+        "maintenance-measurement",
+        "quality",
+        "lastwill"
+      ],
+      "description": "Identifies the business domain of this message. Determines which payload schema applies."
+    },
+    "messageType": {
+      "type": "string",
+      "enum": [
+        "hbt",
+        "cos",
+        "onetime"
+      ],
+      "description": "hbt = Heartbeat (periodic, min every 5 s). cos = Change-of-Status (event-driven). onetime = Static reference data sent once."
+    },
+    "machineId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Plant-owned machine identifier, unique within its site and matching the machine topic segment. Providers map their identifiers to the plant definition.",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "timestamp": {
+      "oneOf": [
+        {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?Z$",
+          "description": "ISO 8601 UTC timestamp of the event being reported (not the time the message was created or transmitted). The Z suffix is mandatory; local-time offsets are not allowed (e.g., 2026-04-01T08:23:11.000Z)."
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Original event time in UTC Z form; required null only for the dedicated Last Will, whose future publication time is unknown at registration."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "unknown",
+        "stop",
+        "run",
+        "fault",
+        "setup",
+        "maintenance",
+        "offline",
+        "lastwill"
+      ],
+      "description": "Machine state at the event time. offline is the final controlled-shutdown notification; lastwill is reserved for the dedicated connection-loss notification and does not assert a physical stop."
+    },
+    "payload": {
+      "type": "object",
+      "description": "Asset-class-specific data. Schema is determined by assetClass (enforced by the oneOf below)."
+    },
+    "schemaId": {
+      "type": "string",
+      "description": "Full payload schema identifier, including version; must match assetClass."
+    },
+    "connectionId": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-5[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "description": "Required on the Will and normal equipment messages of a connection using Last Will. Fresh globally unique UUID v5 per MQTT connection, including reconnect/restart; shared for that connection. Distinct from MQTT client ID and messageID. Allocation method is implementation-defined."
+    }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "assetClass": {
+          "const": "performance"
+        },
+        "payload": {
+          "$ref": "cosi:performance-payload:1.0"
+        },
+        "schemaId": {
+          "const": "cosi:performance-payload:1.0"
+        }
+      }
+    },
+    {
+      "properties": {
+        "assetClass": {
+          "const": "setup-corrugator"
+        },
+        "payload": {
+          "$ref": "cosi:setup-corrugator-payload:1.0"
+        },
+        "schemaId": {
+          "const": "cosi:setup-corrugator-payload:1.0"
+        }
+      }
+    },
+    {
+      "properties": {
+        "assetClass": {
+          "const": "setup-converting"
+        },
+        "payload": {
+          "$ref": "cosi:setup-converting-payload:1.0"
+        },
+        "schemaId": {
+          "const": "cosi:setup-converting-payload:1.0"
+        }
+      }
+    },
+    {
+      "properties": {
+        "assetClass": {
+          "const": "setup-response"
+        },
+        "payload": {
+          "$ref": "cosi:setup-response-payload:1.0"
+        },
+        "schemaId": {
+          "const": "cosi:setup-response-payload:1.0"
+        }
+      },
+      "required": [
+        "correlationID"
+      ]
+    },
+    {
+      "properties": {
+        "assetClass": {
+          "const": "maintenance-document"
+        },
+        "payload": {
+          "$ref": "cosi:maintenance-document-payload:1.0"
+        },
+        "schemaId": {
+          "const": "cosi:maintenance-document-payload:1.0"
+        }
+      }
+    },
+    {
+      "properties": {
+        "assetClass": {
+          "const": "maintenance-measurement"
+        },
+        "payload": {
+          "$ref": "cosi:maintenance-measurement-payload:1.0"
+        },
+        "schemaId": {
+          "const": "cosi:maintenance-measurement-payload:1.0"
+        }
+      }
+    },
+    {
+      "properties": {
+        "assetClass": {
+          "const": "quality"
+        },
+        "payload": {
+          "$ref": "cosi:quality-payload:1.0"
+        },
+        "schemaId": {
+          "const": "cosi:quality-payload:1.0"
+        }
+      }
+    },
+    {
+      "properties": {
+        "assetClass": {
+          "const": "lastwill"
+        },
+        "schemaId": {
+          "const": "cosi:lastwill-payload:1.0"
+        },
+        "payload": {
+          "$ref": "cosi:lastwill-payload:1.0"
+        }
+      }
+    }
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "assetClass": {
+            "const": "lastwill"
+          }
+        },
+        "required": [
+          "assetClass"
+        ]
+      },
+      "then": {
+        "required": [
+          "connectionId"
+        ],
+        "properties": {
+          "timestamp": {
+            "type": "null"
+          },
+          "status": {
+            "const": "lastwill"
+          },
+          "messageType": {
+            "const": "cos"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?Z$",
+            "description": "ISO 8601 UTC timestamp of the event being reported (not the time the message was created or transmitted). The Z suffix is mandatory; local-time offsets are not allowed (e.g., 2026-04-01T08:23:11.000Z)."
+          },
+          "status": {
+            "enum": [
+              "unknown",
+              "stop",
+              "run",
+              "fault",
+              "setup",
+              "maintenance",
+              "offline"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

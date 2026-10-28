@@ -1,0 +1,11 @@
+{
+  "messageID": "0e0632d3-34d2-55e3-a486-6e43c02b8c3d",
+  "connectionId": "82fece39-6f80-5226-be75-9f2a6dc93907",
+  "assetClass": "lastwill",
+  "schemaId": "cosi:lastwill-payload:1.0",
+  "messageType": "cos",
+  "machineId": "corr-line-01",
+  "timestamp": null,
+  "status": "lastwill",
+  "payload": {}
+}

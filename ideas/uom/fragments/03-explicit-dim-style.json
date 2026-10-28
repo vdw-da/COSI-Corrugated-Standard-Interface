@@ -1,0 +1,28 @@
+{
+  "_comment": "Option C — explicit dim per value. Shown for comparison only. Rejected: bloats payload, duplicates field-name semantics.",
+
+  "example": {
+    "messageID":   "3fa6f4e2-1c2d-3b3e-9a1f-2d7c8e5b0a4d",
+    "assetClass":  "performance",
+    "messageType": "hbt",
+    "machineId":   "CORR-LINE-01",
+    "timestamp":   "2026-05-04T06:30:00.000Z",
+    "status":      "run",
+    "payload": {
+      "speed":  { "dim": "length_per_time", "value": 182,  "uom": "m/min" },
+      "energy": [
+        {
+          "name":        "Main Line",
+          "water":       { "dim": "volume", "value": 1.24, "uom": "m3" },
+          "electricity": { "dim": "energy", "value": 5200, "uom": "Wh" },
+          "steam":       { "dim": "mass",   "value": 340,  "uom": "kg" },
+          "air":         { "dim": "volume", "value": 0.92, "uom": "m3" }
+        }
+      ]
+    }
+  },
+
+  "_byteCostNote": "Each measurement adds ~15–20 bytes for 'dim'. With ~15 measurements/HBT × 12 HBT/min × 1440 min/day × 365 days = ~470 MB/machine/year of constant redundant strings. Dimension is already implied by field name; this is duplication.",
+
+  "_compareAgainstSchemaBound": "Option B achieves the same validation power with 0 payload cost — the dimension is in the schema, not the message."
+}

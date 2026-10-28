@@ -1,0 +1,14 @@
+{
+  "messageID": "0ad7e62f-45ae-5a24-a789-df85831847f1",
+  "schemaId": "cosi:performance-payload:1.0",
+  "assetClass": "performance",
+  "messageType": "cos",
+  "machineId": "corrugator-01",
+  "timestamp": null,
+  "status": "lastwill",
+  "payload": {
+    "speed": null,
+    "inputs": [],
+    "outputs": []
+  }
+}

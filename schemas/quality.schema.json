@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "cosi:quality-payload:1.0",
+  "title": "COSI — Quality Payload",
+  "description": "Payload for quality messages (assetClass=quality). Contains per-job quality checks organised by production section. Sections not applicable to a machine type are omitted.",
+  "type": "object",
+  "required": ["jobRef", "articleRef", "taskRef", "setupRef", "qualityChecks"],
+
+  "$defs": {
+
+    "QualityCheck": {
+      "description": "Every quality check uses a single uniform shape regardless of whether the value is numeric, boolean, or qualitative.",
+      "type": "object",
+      "required": ["errorType", "lowerLimit", "upperLimit", "uom", "checks"],
+      "properties": {
+        "errorType":  { "type": "string", "description": "Human-readable check label in English." },
+        "lowerLimit": { "type": ["number", "null"], "description": "Lower tolerance bound. Null for non-numeric checks." },
+        "upperLimit": { "type": ["number", "null"], "description": "Upper tolerance bound. Null for non-numeric checks." },
+        "uom":        { "type": ["string", "null"], "description": "Unit of measure. Null when not applicable." },
+        "checks": {
+          "type": "array",
+          "description": "Atomic quality checks with counted outcomes. Each entry describes a check; receiving applications build reports. This array is not a cumulative job report, and an empty array does not establish OK output.",
+          "items": {
+            "type": "object",
+            "required": ["quantity", "uom", "result"],
+            "properties": {
+              "quantity":  { "type": "number", "description": "Number of pieces covered by this atomic check." },
+              "uom":       { "type": "string", "description": "Unit of the count; use `pcs`" },
+              "result":    { "type": "string", "enum": ["OK", "NOK"], "description": "Outcome for the counted pieces."},
+              "ejected":   { "type": "boolean", "description": "Whether pieces covered by a NOK check were ejected; retain on NOK." },
+              "exception": { "type": "string", "enum": ["lower-violation", "upper-violation"], "description": "Numeric bound violated on a NOK check. Omit when no numeric bound was violated, including qualitative NOK with null limits." }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+
+  },
+
+  "properties": {
+
+    "jobRef": {
+      "type": ["string", "null"],
+      "description": "Manufacturing order reference from ERP / MES."
+    },
+
+    "articleRef": {
+      "type": ["string", "null"],
+      "description": "Article / product specification reference."
+    },
+
+    "taskRef": {
+      "type": ["string", "null"],
+      "description": "Manufacturing step reference within the order."
+    },
+
+    "setupRef": {
+      "type": ["string", "null"],
+      "description": "Reference to setupSettings.setupId of the corrugator in the same site/machine context. Null when not applicable; distinct executions on one machine have distinct setup identifiers."
+    },
+
+    "qualityChecks": {
+      "type": "object",
+      "description": "Quality check results grouped by production section. Omit sections that are not applicable to the reporting machine.",
+      "properties": {
+
+        "corrugating": {
+          "type": "object",
+          "description": "Checks applicable to corrugating / corrugator output.",
+          "properties": {
+            "warp":             { "$ref": "#/$defs/QualityCheck" },
+            "humidity":         { "$ref": "#/$defs/QualityCheck" },
+            "temperature":      { "$ref": "#/$defs/QualityCheck" },
+            "caliper":          { "$ref": "#/$defs/QualityCheck" },
+            "paperQuality":     { "$ref": "#/$defs/QualityCheck" },
+            "reelQuality":      { "$ref": "#/$defs/QualityCheck" },
+            "paperAlignment":   { "$ref": "#/$defs/QualityCheck" },
+            "printRegister":    { "$ref": "#/$defs/QualityCheck" },
+            "blistersAndGluing":{ "$ref": "#/$defs/QualityCheck" },
+            "cutQuality":       { "$ref": "#/$defs/QualityCheck" },
+            "scoring":          { "$ref": "#/$defs/QualityCheck" },
+            "format":           { "$ref": "#/$defs/QualityCheck" }
+          },
+          "additionalProperties": false
+        },
+
+        "foldingGluing": {
+          "type": "object",
+          "description": "Checks applicable to folder-gluer output.",
+          "properties": {
+            "gapSize":    { "$ref": "#/$defs/QualityCheck" },
+            "glueApplied":{ "$ref": "#/$defs/QualityCheck" },
+            "scoring":    { "$ref": "#/$defs/QualityCheck" },
+            "fishtailing":{ "$ref": "#/$defs/QualityCheck" },
+            "wasteFree":  { "$ref": "#/$defs/QualityCheck" }
+          },
+          "additionalProperties": false
+        },
+
+        "dieCutting": {
+          "type": "object",
+          "description": "Checks applicable to die-cutting output.",
+          "properties": {
+            "missingLinesCuttingCreasing": { "$ref": "#/$defs/QualityCheck" },
+            "creasingCracking":            { "$ref": "#/$defs/QualityCheck" },
+            "dimensions":                  { "$ref": "#/$defs/QualityCheck" }
+          },
+          "additionalProperties": false
+        },
+
+        "logistics": {
+          "type": "object",
+          "description": "Checks applicable to pallet / stack output.",
+          "properties": {
+            "stackAccuracy": { "$ref": "#/$defs/QualityCheck" },
+            "stackHeight":   { "$ref": "#/$defs/QualityCheck" },
+            "elephantFoot":  { "$ref": "#/$defs/QualityCheck" },
+            "labelsPosition":{ "$ref": "#/$defs/QualityCheck" }
+          },
+          "additionalProperties": false
+        },
+
+        "printing": {
+          "type": "object",
+          "description": "Checks per print colour station.",
+          "required": ["colors"],
+          "properties": {
+            "colors": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": ["colorId"],
+                "properties": {
+                  "colorId":          { "type": "string", "description": "Identifies the print station (e.g., 'station-1', 'C', 'M')." },
+                  "printingDefects":  { "$ref": "#/$defs/QualityCheck" },
+                  "registerAccuracy": { "$ref": "#/$defs/QualityCheck" },
+                  "colorAccuracy":    { "$ref": "#/$defs/QualityCheck" },
+                  "inkTemperature":   { "$ref": "#/$defs/QualityCheck" },
+                  "inkViscosity":     { "$ref": "#/$defs/QualityCheck" },
+                  "inkPH":            { "$ref": "#/$defs/QualityCheck" }
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+
+      },
+      "additionalProperties": false
+    }
+
+  },
+
+  "additionalProperties": false
+}

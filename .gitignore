@@ -1,0 +1,10 @@
+# Editor and operating-system files
+.vscode/
+.history/
+.DS_Store
+Thumbs.db
+
+# Generated dependencies and caches
+node_modules/
+__pycache__/
+*.log

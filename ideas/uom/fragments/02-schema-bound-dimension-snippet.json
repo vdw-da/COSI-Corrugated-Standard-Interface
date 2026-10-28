@@ -1,0 +1,60 @@
+{
+  "_comment": "Option B — dimension lives in the schema. This fragment shows the SCHEMA side, not the payload. Payload remains unchanged from today.",
+
+  "before_currentBehavior": {
+    "$defs": {
+      "Quantity": {
+        "type": "object",
+        "required": ["value", "uom"],
+        "properties": {
+          "value": { "type": "number" },
+          "uom":   { "type": "string" }
+        }
+      }
+    },
+    "properties": {
+      "water":       { "allOf": [{ "$ref": "#/$defs/Quantity" }], "properties": { "uom": { "const": "m3" } } },
+      "electricity": { "allOf": [{ "$ref": "#/$defs/Quantity" }], "properties": { "uom": { "const": "Wh" } } },
+      "steam":       { "allOf": [{ "$ref": "#/$defs/Quantity" }], "properties": { "uom": { "const": "kg" } } }
+    },
+    "_note": "Each field pins a single metric uom. Imperial is impossible."
+  },
+
+  "after_dimensionBound": {
+    "$defs": {
+      "Quantity": {
+        "type": "object",
+        "required": ["value", "uom"],
+        "properties": {
+          "value": { "type": "number" },
+          "uom":   { "type": "string" }
+        }
+      },
+      "Volume":      { "type": "string", "enum": ["m3", "L", "ft3", "gal_us"] },
+      "Energy":      { "type": "string", "enum": ["Wh", "kWh", "MJ", "BTU"] },
+      "Mass":        { "type": "string", "enum": ["g", "kg", "t", "oz", "lb"] }
+    },
+    "properties": {
+      "water":       { "allOf": [{ "$ref": "#/$defs/Quantity" }], "properties": { "uom": { "$ref": "#/$defs/Volume" } } },
+      "electricity": { "allOf": [{ "$ref": "#/$defs/Quantity" }], "properties": { "uom": { "$ref": "#/$defs/Energy" } } },
+      "steam":       { "allOf": [{ "$ref": "#/$defs/Quantity" }], "properties": { "uom": { "$ref": "#/$defs/Mass"   } } }
+    },
+    "_note": "Each field now declares its dimension via $ref. Both metric and imperial uoms validate; the wrong dimension (e.g. 'kg' on water) is rejected."
+  },
+
+  "payloadIsUnchanged": {
+    "water":       { "value": 1.24, "uom": "m3" },
+    "electricity": { "value": 5200, "uom": "Wh" },
+    "steam":       { "value": 340,  "uom": "kg" },
+
+    "_alsoValidImperial": {
+      "water":       { "value": 327,   "uom": "gal_us" },
+      "electricity": { "value": 17750, "uom": "BTU"    },
+      "steam":       { "value": 750,   "uom": "lb"     }
+    },
+
+    "_rejectedByValidator": {
+      "water":       { "value": 1.24, "uom": "kg" }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "cosi-validation",
+  "private": true,
+  "description": "Validation tools for the COSI schemas and example messages",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "validate": "node scripts/validate-examples.mjs",
+    "audit": "python3 scripts/audit.py",
+    "package:pdfs": "python3 scripts/package-pdfs.py",
+    "test": "node --test tests/validation.test.mjs && python3 -B -m unittest discover -s tests -p '*_test.py'"
+  },
+  "devDependencies": {
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1"
+  }
+}

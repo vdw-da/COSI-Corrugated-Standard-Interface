@@ -1,0 +1,217 @@
+{
+  "messageID":     "a9c12f3d-44b8-5e7a-bf2e-3c781d02e5f9",
+  "correlationID": "7e4d2a18-99f3-5c1a-a3e0-1b6f7c8d5e2a",
+  "assetClass":    "quality",
+  "schemaId":      "cosi:quality-payload:1.0",
+  "messageType":   "cos",
+  "machineId":     "ffg-line-02",
+  "timestamp":     "2026-05-04T07:45:00.000Z",
+  "status":        "run",
+  "payload": {
+    "jobRef":     "JOB-2026-4711",
+    "articleRef": "ART-0201-BC",
+    "taskRef":    "TASK-FFG-001",
+    "setupRef":   null,
+
+    "qualityChecks": {
+
+      "corrugating": {
+        "warp": {
+          "errorType": "Warp", "lowerLimit": null, "upperLimit": 8.0, "uom": "%",
+          "checks": [
+            { "quantity": 2422, "uom": "pcs", "result": "OK" }
+          ]
+        },
+        "humidity": {
+          "errorType": "Humidity", "lowerLimit": 45, "upperLimit": 60, "uom": "%RH",
+          "checks": [
+            { "quantity": 2422, "uom": "pcs", "result": "OK" }
+          ]
+        },
+        "temperature": {
+          "errorType": "Temperature", "lowerLimit": 18, "upperLimit": 28, "uom": "°C",
+          "checks": [
+            { "quantity": 2422, "uom": "pcs", "result": "OK" }
+          ]
+        },
+        "caliper": {
+          "errorType": "Caliper", "lowerLimit": 3.8, "upperLimit": 4.2, "uom": "mm",
+          "checks": [
+            { "quantity": 8,    "uom": "pcs", "result": "NOK", "ejected": true,  "exception": "lower-violation" },
+            { "quantity": 14,   "uom": "pcs", "result": "NOK", "ejected": false, "exception": "upper-violation" },
+            { "quantity": 2400, "uom": "pcs", "result": "OK" }
+          ]
+        },
+        "paperQuality": {
+          "errorType": "Paper quality", "lowerLimit": null, "upperLimit": null, "uom": null,
+          "checks": [
+            { "quantity": 2420, "uom": "pcs", "result": "OK" },
+            { "quantity": 2, "uom": "pcs", "result": "NOK", "ejected": false }
+          ]
+        },
+        "reelQuality": {
+          "errorType": "Reel quality", "lowerLimit": null, "upperLimit": null, "uom": null,
+          "checks": [
+            { "quantity": 2422, "uom": "pcs", "result": "OK" }
+          ]
+        },
+        "paperAlignment": {
+          "errorType": "Paper alignment", "lowerLimit": -2.0, "upperLimit": 2.0, "uom": "mm",
+          "checks": [
+            { "quantity": 2422, "uom": "pcs", "result": "OK" }
+          ]
+        },
+        "printRegister": {
+          "errorType": "Print register", "lowerLimit": -1.5, "upperLimit": 1.5, "uom": "mm",
+          "checks": [
+            { "quantity": 2422, "uom": "pcs", "result": "OK" }
+          ]
+        },
+        "blistersAndGluing": {
+          "errorType": "Blisters and gluing", "lowerLimit": null, "upperLimit": null, "uom": null,
+          "checks": [
+            { "quantity": 2422, "uom": "pcs", "result": "OK" }
+          ]
+        },
+        "cutQuality": {
+          "errorType": "Cut quality", "lowerLimit": null, "upperLimit": null, "uom": null,
+          "checks": [
+            { "quantity": 2422, "uom": "pcs", "result": "OK" }
+          ]
+        },
+        "scoring": {
+          "errorType": "Scoring", "lowerLimit": -1.0, "upperLimit": 1.0, "uom": "mm",
+          "checks": [
+            { "quantity": 2422, "uom": "pcs", "result": "OK" }
+          ]
+        },
+        "format": {
+          "errorType": "Format", "lowerLimit": -2.0, "upperLimit": 2.0, "uom": "mm",
+          "checks": [
+            { "quantity": 2422, "uom": "pcs", "result": "OK" }
+          ]
+        }
+      },
+
+      "foldingGluing": {
+        "gapSize": {
+          "errorType": "Gap size", "lowerLimit": -1.0, "upperLimit": 1.0, "uom": "mm",
+          "checks": [ { "quantity": 2422, "uom": "pcs", "result": "OK" } ]
+        },
+        "glueApplied": {
+          "errorType": "Glue applied", "lowerLimit": null, "upperLimit": null, "uom": null,
+          "checks": [ { "quantity": 2422, "uom": "pcs", "result": "OK" } ]
+        },
+        "scoring": {
+          "errorType": "Scoring", "lowerLimit": -1.5, "upperLimit": 1.5, "uom": "mm",
+          "checks": [ { "quantity": 2422, "uom": "pcs", "result": "OK" } ]
+        },
+        "fishtailing": {
+          "errorType": "Fishtailing", "lowerLimit": null, "upperLimit": 3.0, "uom": "%",
+          "checks": [ { "quantity": 2422, "uom": "pcs", "result": "OK" } ]
+        },
+        "wasteFree": {
+          "errorType": "Waste free", "lowerLimit": 98.0, "upperLimit": null, "uom": "%",
+          "checks": [ { "quantity": 2422, "uom": "pcs", "result": "OK" } ]
+        }
+      },
+
+      "dieCutting": {
+        "missingLinesCuttingCreasing": {
+          "errorType": "Missing lines cutting/creasing", "lowerLimit": null, "upperLimit": null, "uom": null,
+          "checks": [ { "quantity": 2422, "uom": "pcs", "result": "OK" } ]
+        },
+        "creasingCracking": {
+          "errorType": "Creasing cracking", "lowerLimit": null, "upperLimit": null, "uom": null,
+          "checks": [ { "quantity": 2422, "uom": "pcs", "result": "OK" } ]
+        },
+        "dimensions": {
+          "errorType": "Dimensions", "lowerLimit": -2.0, "upperLimit": 2.0, "uom": "mm",
+          "checks": [ { "quantity": 2422, "uom": "pcs", "result": "OK" } ]
+        }
+      },
+
+      "logistics": {
+        "stackAccuracy": {
+          "errorType": "Stack accuracy", "lowerLimit": 95.0, "upperLimit": null, "uom": "%",
+          "checks": [ { "quantity": 2422, "uom": "pcs", "result": "OK" } ]
+        },
+        "stackHeight": {
+          "errorType": "Stack height", "lowerLimit": 80, "upperLimit": 200, "uom": "mm",
+          "checks": [ { "quantity": 2422, "uom": "pcs", "result": "OK" } ]
+        },
+        "elephantFoot": {
+          "errorType": "Elephant foot", "lowerLimit": null, "upperLimit": null, "uom": null,
+          "checks": [ { "quantity": 2422, "uom": "pcs", "result": "OK" } ]
+        },
+        "labelsPosition": {
+          "errorType": "Labels position", "lowerLimit": null, "upperLimit": null, "uom": null,
+          "checks": [ { "quantity": 2422, "uom": "pcs", "result": "OK" } ]
+        }
+      },
+
+      "printing": {
+        "colors": [
+          {
+            "colorId": "station-1",
+            "printingDefects": {
+              "errorType": "Printing defects", "lowerLimit": null, "upperLimit": 2.0, "uom": null,
+              "checks": [ { "quantity": 2422, "uom": "pcs", "result": "OK" } ]
+            },
+            "registerAccuracy": {
+              "errorType": "Register accuracy", "lowerLimit": -1.0, "upperLimit": 1.0, "uom": "mm",
+              "checks": [ { "quantity": 2422, "uom": "pcs", "result": "OK" } ]
+            },
+            "colorAccuracy": {
+              "errorType": "Color accuracy", "lowerLimit": null, "upperLimit": 3.0, "uom": "dE2000",
+              "checks": [ { "quantity": 2422, "uom": "pcs", "result": "OK" } ]
+            },
+            "inkTemperature": {
+              "errorType": "Ink temperature", "lowerLimit": 18, "upperLimit": 26, "uom": "°C",
+              "checks": [ { "quantity": 2422, "uom": "pcs", "result": "OK" } ]
+            },
+            "inkViscosity": {
+              "errorType": "Ink viscosity", "lowerLimit": 18, "upperLimit": 24, "uom": "s",
+              "checks": [ { "quantity": 2422, "uom": "pcs", "result": "OK" } ]
+            },
+            "inkPH": {
+              "errorType": "Ink pH", "lowerLimit": 8.0, "upperLimit": 9.5, "uom": null,
+              "checks": [ { "quantity": 2422, "uom": "pcs", "result": "OK" } ]
+            }
+          },
+          {
+            "colorId": "station-2",
+            "printingDefects": {
+              "errorType": "Printing defects", "lowerLimit": null, "upperLimit": 2.0, "uom": null,
+              "checks": [ { "quantity": 2422, "uom": "pcs", "result": "OK" } ]
+            },
+            "registerAccuracy": {
+              "errorType": "Register accuracy", "lowerLimit": -1.0, "upperLimit": 1.0, "uom": "mm",
+              "checks": [ { "quantity": 2422, "uom": "pcs", "result": "OK" } ]
+            },
+            "colorAccuracy": {
+              "errorType": "Color accuracy", "lowerLimit": null, "upperLimit": 3.0, "uom": "dE2000",
+              "checks": [
+                { "quantity": 22,   "uom": "pcs", "result": "NOK", "ejected": true, "exception": "upper-violation" },
+                { "quantity": 2400, "uom": "pcs", "result": "OK" }
+              ]
+            },
+            "inkTemperature": {
+              "errorType": "Ink temperature", "lowerLimit": 18, "upperLimit": 26, "uom": "°C",
+              "checks": [ { "quantity": 2422, "uom": "pcs", "result": "OK" } ]
+            },
+            "inkViscosity": {
+              "errorType": "Ink viscosity", "lowerLimit": 18, "upperLimit": 24, "uom": "s",
+              "checks": [ { "quantity": 2422, "uom": "pcs", "result": "OK" } ]
+            },
+            "inkPH": {
+              "errorType": "Ink pH", "lowerLimit": 8.0, "upperLimit": 9.5, "uom": null,
+              "checks": [ { "quantity": 2422, "uom": "pcs", "result": "OK" } ]
+            }
+          }
+        ]
+      }
+
+    }
+  }
+}

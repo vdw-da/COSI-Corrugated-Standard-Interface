@@ -1,0 +1,294 @@
+{
+  "messageID":     "7c8b2a1e-3d4f-5e5c-8b9a-1f2e3d4c5b6a",
+  "assetClass":    "setup-corrugator",
+  "schemaId":      "cosi:setup-corrugator-payload:1.0",
+  "messageType":   "cos",
+  "machineId":     "corr-line-01",
+  "timestamp":     "2026-05-04T06:12:00.000Z",
+  "status":        "setup",
+  "payload": {
+
+    "customProps": {},
+
+    "setupSettings": {
+      "setupId":        "SETUP-2026-0881",
+
+      "webWidth":   { "value": 1600, "uom": "mm" },
+      "leftTrim":   { "value": 10,   "uom": "mm" },
+      "rightTrim":  { "value": 10,   "uom": "mm" },
+
+      "speed": {
+        "uom":     "m/min",
+        "target":  200
+      },
+      "control1Speed": { "value": 178, "uom": "m/min" },
+      "control2Speed": { "value": 174, "uom": "m/min" },
+
+      "runningLength": {
+        "uom":       "m",
+        "scheduled": 14400
+      }
+    },
+
+    "boardGradeSettings": {
+      "boardGradeRef": "BC-200-140",
+      "fluteType":     "BC",
+      "caliper":       { "value": 5.6, "uom": "mm" }
+    },
+
+    "orders": [
+      {
+        "customProps": {},
+
+        "orderType":         "production",
+        "orderRef":          "ORD-2026-4711",
+        "partRef":           "PART-001",
+        "articleRef":        "ART-0201-BC",
+        "customerName":      "Acme Packaging GmbH",
+        "processingMachine": "ffg-line-02",
+        "destinationLine":   2,
+        "l2rSequenceNumber": 1,
+
+        "sheetWidth":  { "value": 1480, "uom": "mm" },
+        "sheetLength": { "value": 1200, "uom": "mm" },
+
+        "cuts": {
+          "uom":    "cuts",
+          "target": 5200
+        },
+
+        "numberOfOuts":    2,
+        "cutoffAllocation": 0,
+
+        "preprint": {
+          "active":         false,
+          "markDefinition": 0,
+          "mark1Width":  { "value": 0, "uom": "mm" },
+          "gap1Width":   { "value": 0, "uom": "mm" },
+          "mark2Width":  { "value": 0, "uom": "mm" },
+          "gap2Width":   { "value": 0, "uom": "mm" },
+          "mark3Width":  { "value": 0, "uom": "mm" },
+          "windowWidth": { "value": 0, "uom": "mm" },
+          "markToEdge":  { "value": 0, "uom": "mm" },
+          "markOffset":  { "value": 0, "uom": "mm" },
+          "printSide":   "bottom",
+          "colorContrast": 0
+        },
+
+        "scoringProfiles": [
+          { "profileId": 1, "profileType": "V-cut", "offset": 0, "depth": { "value": 1.2, "uom": "mm" } },
+          { "profileId": 2, "profileType": null,    "offset": 0, "depth": { "value": 0,   "uom": "mm" } }
+        ],
+
+        "scoringPositions": [
+          { "position":  1, "value": 115,  "uom": "mm", "profileId": 1 },
+          { "position":  2, "value": 330,  "uom": "mm", "profileId": 1 },
+          { "position":  3, "value": 540,  "uom": "mm", "profileId": 1 },
+          { "position":  4, "value": 755,  "uom": "mm", "profileId": 1 },
+          { "position":  5, "value": 855,  "uom": "mm", "profileId": 1 },
+          { "position":  6, "value": 1070, "uom": "mm", "profileId": 1 },
+          { "position":  7, "value": 1280, "uom": "mm", "profileId": 1 },
+          { "position":  8, "value": 1395, "uom": "mm", "profileId": 1 },
+          { "position":  9, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 10, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 11, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 12, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 13, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 14, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 15, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 16, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 17, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 18, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 19, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 20, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 21, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 22, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 23, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 24, "value": 0,    "uom": "mm", "profileId": 1 }
+        ],
+
+        "stackHeight":        { "value": 800, "uom": "mm"    },
+        "stackCount":         { "value": 200, "uom": "pcs" },
+        "lastRun":            false,
+        "dischargeDirection": "OS",
+        "intermediateLayer":  false,
+        "palletType":         "Euro"
+      },
+      {
+        "orderType":         "production",
+        "orderRef":          "ORD-2026-4712",
+        "partRef":           "PART-001",
+        "articleRef":        "ART-0201-BC-S",
+        "customerName":      "Beta Logistics AG",
+        "processingMachine": "ffg-line-02",
+        "destinationLine":   2,
+        "l2rSequenceNumber": 2,
+
+        "sheetWidth":  { "value": 1480, "uom": "mm" },
+        "sheetLength": { "value": 960,  "uom": "mm" },
+
+        "cuts": {
+          "uom":    "cuts",
+          "target": 3800
+        },
+
+        "numberOfOuts":    2,
+        "cutoffAllocation": 0,
+
+        "preprint": {
+          "active":         false,
+          "markDefinition": 0,
+          "mark1Width":  { "value": 0, "uom": "mm" },
+          "gap1Width":   { "value": 0, "uom": "mm" },
+          "mark2Width":  { "value": 0, "uom": "mm" },
+          "gap2Width":   { "value": 0, "uom": "mm" },
+          "mark3Width":  { "value": 0, "uom": "mm" },
+          "windowWidth": { "value": 0, "uom": "mm" },
+          "markToEdge":  { "value": 0, "uom": "mm" },
+          "markOffset":  { "value": 0, "uom": "mm" },
+          "printSide":   "bottom",
+          "colorContrast": 0
+        },
+
+        "scoringProfiles": [
+          { "profileId": 1, "profileType": "V-cut", "offset": 0,  "depth": { "value": 1.2, "uom": "mm" } },
+          { "profileId": 2, "profileType": null,    "offset": 0,  "depth": { "value": 0,   "uom": "mm" } }
+        ],
+
+        "scoringPositions": [
+          { "position":  1, "value": 95,   "uom": "mm", "profileId": 1 },
+          { "position":  2, "value": 280,  "uom": "mm", "profileId": 1 },
+          { "position":  3, "value": 440,  "uom": "mm", "profileId": 1 },
+          { "position":  4, "value": 625,  "uom": "mm", "profileId": 1 },
+          { "position":  5, "value": 720,  "uom": "mm", "profileId": 1 },
+          { "position":  6, "value": 905,  "uom": "mm", "profileId": 1 },
+          { "position":  7, "value": 1065, "uom": "mm", "profileId": 1 },
+          { "position":  8, "value": 1250, "uom": "mm", "profileId": 1 },
+          { "position":  9, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 10, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 11, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 12, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 13, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 14, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 15, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 16, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 17, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 18, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 19, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 20, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 21, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 22, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 23, "value": 0,    "uom": "mm", "profileId": 1 },
+          { "position": 24, "value": 0,    "uom": "mm", "profileId": 1 }
+        ],
+
+        "stackHeight":        { "value": 600, "uom": "mm"    },
+        "stackCount":         { "value": 150, "uom": "pcs" },
+        "lastRun":            true,
+        "dischargeDirection": "DS",
+        "intermediateLayer":  false,
+        "palletType":         "Euro"
+      }
+    ],
+
+    "periphery": [
+      {
+        "deviceId":   "SF1",
+        "deviceType": "single-facer",
+        "settings": {
+          "active": true,
+          "linerPaper": {
+            "paperId":     "KLB-200-SF1",
+            "gsm":         { "value": 200, "uom": "g/m²" },
+            "caliper":     { "value": 0.31, "uom": "mm" },
+            "width":       { "value": 1620, "uom": "mm" },
+            "requiredFSC": "100%"
+          },
+          "mediumPaper": {
+            "paperId":     "SC-140-SF1",
+            "gsm":         { "value": 140, "uom": "g/m²" },
+            "caliper":     { "value": 0.22, "uom": "mm" },
+            "width":       { "value": 1620, "uom": "mm" },
+            "requiredFSC": null
+          },
+          "fluteType": "B",
+          "processAdds": {
+            "waterResistant": false,
+            "whiteTop":       false,
+            "wax":            false,
+            "coating":        false
+          }
+        }
+      },
+      {
+        "deviceId":   "SF2",
+        "deviceType": "single-facer",
+        "settings": {
+          "active": false,
+          "linerPaper": {
+            "paperId":     null,
+            "gsm":         { "value": 0, "uom": "g/m²" },
+            "caliper":     { "value": 0, "uom": "mm" },
+            "width":       { "value": 0, "uom": "mm" },
+            "requiredFSC": null
+          },
+          "mediumPaper": {
+            "paperId":     null,
+            "gsm":         { "value": 0, "uom": "g/m²" },
+            "caliper":     { "value": 0, "uom": "mm" },
+            "width":       { "value": 0, "uom": "mm" },
+            "requiredFSC": null
+          },
+          "fluteType": null,
+          "processAdds": {
+            "waterResistant": false,
+            "whiteTop":       false,
+            "wax":            false,
+            "coating":        false
+          }
+        }
+      },
+      {
+        "deviceId":   "DB",
+        "deviceType": "double-backer",
+        "settings": {
+          "active": true,
+          "linerPaper": {
+            "paperId":     "KLB-200-DB",
+            "gsm":         { "value": 200, "uom": "g/m²" },
+            "caliper":     { "value": 0.31, "uom": "mm" },
+            "width":       { "value": 1620, "uom": "mm" },
+            "requiredFSC": "100%"
+          },
+          "processAdds": {
+            "waterResistant": false,
+            "whiteTop":       false,
+            "wax":            false,
+            "coating":        false
+          }
+        }
+      },
+      {
+        "deviceId":   "fanfold",
+        "deviceType": "fanfold",
+        "settings": {
+          "active":        false,
+          "orderIndex":    0,
+          "numberOfFolds": 0,
+          "creaseLength":  { "value": 0, "uom": "mm" }
+        }
+      },
+      {
+        "deviceId":   "tape",
+        "deviceType": "tape",
+        "settings": {
+          "active":     false,
+          "orderIndex": 0,
+          "tapeType":   "",
+          "positions":  []
+        }
+      }
+    ]
+
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "_comment": "Option B — all order types in one array, distinguished by orderType flag",
+
+  "orders": [
+    {
+      "_comment": "Full production order — all fields present",
+      "orderType": "production",
+      "l2rSequenceNumber": 1,
+      "orderRef": "ORD-2026-4711",
+      "partRef": "PART-001",
+      "articleRef": "ART-0201-BC",
+      "customerName": "Acme Packaging GmbH",
+      "processingMachine": "FFG-LINE-02",
+      "destinationLine": 2,
+      "sheetWidth":  { "value": 1480, "uom": "mm" },
+      "sheetLength": { "value": 1200, "uom": "mm" },
+      "cuts": { "uom": "cuts", "target": 5200 },
+      "numberOfOuts": 2,
+      "cutoffAllocation": 0,
+      "scoringProfiles": [
+        { "profileId": 1, "profileType": "V-cut", "offset": 0, "depth": { "value": 1.2, "uom": "mm" } }
+      ],
+      "scoringPositions": [
+        { "position": 1, "value": 115, "uom": "mm", "profileId": 1 },
+        { "position": 2, "value": 330, "uom": "mm", "profileId": 1 },
+        { "position": 3, "value": 0, "uom": "mm", "profileId": 1 },
+        { "position": 4, "value": 0, "uom": "mm", "profileId": 1 }
+      ],
+      "stackHeight": { "value": 80, "uom": "pcs" },
+      "stackCount": { "value": 65, "uom": "stacks" },
+      "lastRun": false,
+      "dischargeDirection": "OS",
+      "intermediateLayer": false,
+      "palletType": "Euro"
+    },
+    {
+      "_comment": "Waste strip — , only essential fields",
+      "orderType": "waste-run",
+      "l2rSequenceNumber": 0,
+      "sheetWidth":  { "value": 120, "uom": "mm" },
+      "sheetLength": { "value": 1200, "uom": "mm" },
+      "cutoffAllocation": 0
+    },
+    {
+      "_comment": "Productive side order — add extra fields?",
+      "orderType": "side-order",
+      "l2rSequenceNumber": 2,
+      "articleRef": "ReserveSheets-200x600",
+      "sheetWidth":  { "value": 200, "uom": "mm" },
+      "sheetLength": { "value": 600, "uom": "mm" },
+      "cutoffAllocation": 1
+    }
+  ]
+}

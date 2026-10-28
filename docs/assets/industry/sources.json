@@ -1,0 +1,226 @@
+[
+  {
+    "name": "BHS Corrugated Maschinen- und Anlagenbau GmbH",
+    "id": "bhs",
+    "logo": "assets/industry/bhs.png",
+    "source_page": "https://www.bhs-world.com/",
+    "logo_source": "https://www.bhs-world.com/typo3conf/ext/c3local/Resources/Public/Icons/BHS_logo.svg",
+    "sha256": "91a402eb7bfadaabdbfd03fd19e6ba5ce1e84e48320f018519d0f3d728a2ecaf",
+    "retrieved": "2026-10-26",
+    "processing": "Format conversion only; original proportions retained."
+  },
+  {
+    "name": "BOBST Mex SA",
+    "id": "bobst",
+    "logo": "assets/industry/bobst.png",
+    "source_page": "https://www.bobst.com/",
+    "logo_source": "https://www.bobst.com/content/dam/bobstdam/sites/main/bobst_logo_correct.svg",
+    "sha256": "0d9ea4e9061fe928583ec30d2fc0b6e6e7eb5652f7127488d8c3e3c7d5a945c0",
+    "retrieved": "2026-10-26",
+    "processing": "Format conversion only; original proportions retained."
+  },
+  {
+    "name": "DS Smith Packaging Deutschland Stiftung & Co. KG",
+    "id": "dssmith",
+    "logo": "assets/industry/dssmith.png",
+    "source_page": "https://www.dssmith.com/",
+    "logo_source": "https://www.dssmith.com/Static/dist/gfx/ds-logo-color.svg",
+    "sha256": "49dac1559cfb08fbb1f35de34d245dadaec60e44395aa82125dd1a84d6988304",
+    "retrieved": "2026-10-26",
+    "processing": "Format conversion only; original proportions retained."
+  },
+  {
+    "name": "Dücker Conveyor Systems GmbH",
+    "id": "duecker",
+    "logo": "assets/industry/duecker.png",
+    "source_page": "https://www.duecker.com/",
+    "logo_source": "https://www.duecker.com/assets/images/7/Logo-Duecker-conveyor-fe522146.jpg",
+    "sha256": "d464e752d6bc3de61c47aba36992f319b896dd03fc1983bc1a3e31b917de8b8f",
+    "retrieved": "2026-10-26",
+    "processing": "Format conversion only; original proportions retained."
+  },
+  {
+    "name": "EMBA Machinery AB",
+    "id": "emba",
+    "logo": "assets/industry/emba.png",
+    "source_page": "https://emba.com/",
+    "logo_source": "https://emba.com/wp-content/uploads/2018/12/EMBA-Berg-Group.svg",
+    "sha256": "59f14940e4928a6532750a59c436eab522abdce924f73d27980502ea8b87be8f",
+    "retrieved": "2026-10-26",
+    "processing": "Format conversion only; original proportions retained."
+  },
+  {
+    "name": "ePS (eProductivity Software)",
+    "id": "eps",
+    "logo": "assets/industry/eps.png",
+    "source_page": "https://www.epssw.com/",
+    "logo_source": "https://epssw.com/hubfs/ePS%20logo%20RGB%20White.svg",
+    "sha256": "01f2dd1be882c7e41d034c23765e7746e94132a2975b68efc389c00e86d75b9b",
+    "retrieved": "2026-10-26",
+    "processing": "Format conversion only; original proportions retained. Reverse artwork shown on a dark backing."
+  },
+  {
+    "name": "FEFCO AISBL",
+    "id": "fefco",
+    "logo": "assets/industry/fefco.png",
+    "source_page": "https://www.fefco.org/",
+    "logo_source": "https://www.fefco.org/sites/default/files/fefco_logo.svg",
+    "sha256": "fc5fc989a7bb1fe46274ceb4a59ae2571025336a9d7046629a9d8abcd30e165b",
+    "retrieved": "2026-10-26",
+    "processing": "Format conversion only; original proportions retained."
+  },
+  {
+    "name": "Fosber Group",
+    "id": "fosber",
+    "logo": "assets/industry/fosber.png",
+    "source_page": "https://www.fosbergroup.com/",
+    "logo_source": "https://www.fosbergroup.com/fileadmin/templates/fosber/assets/images/logo-fosber.png",
+    "sha256": "3a275e6361fed8c7c25c6b2e79bbef7bcc22241ea072d8e3e9b6e00aa22aac28",
+    "retrieved": "2026-10-26",
+    "processing": "Format conversion only; original proportions retained."
+  },
+  {
+    "name": "Göpfert Maschinen GmbH",
+    "id": "goepfert",
+    "logo": "assets/industry/goepfert.png",
+    "source_page": "https://www.goepfert.de/",
+    "logo_source": "https://goepfert.de/wp-content/uploads/2025/04/logo-goepfert-mehr_maschine.png",
+    "sha256": "df0d2e2dccd913aa7b6c810309a893c25e62b3062a88ece3b67c463de9ba08d5",
+    "retrieved": "2026-10-26",
+    "processing": "Format conversion only; original proportions retained."
+  },
+  {
+    "name": "Hans Kolb Wellpappe GmbH & Co. KG",
+    "id": "kolb",
+    "logo": "assets/industry/kolb.png",
+    "source_page": "https://www.kolb-wellpappe.com/",
+    "logo_source": "https://www.kolb-wellpappe.com/wp-content/smush-webp/2020/07/KOLB_Group.png.webp",
+    "sha256": "915c7eb6847ff547f782cae47db2b56f2bd4146d60eb8a7b134e677dd4b5c703",
+    "retrieved": "2026-10-26",
+    "processing": "Format conversion only; original proportions retained."
+  },
+  {
+    "name": "Klingele Paper & Packaging SE & Co. KG",
+    "id": "klingele",
+    "logo": "assets/industry/klingele.png",
+    "source_page": "https://www.klingele.com/",
+    "logo_source": "https://www.klingele.com/",
+    "sha256": "d621a78ea263307dd26d5bc8bff65df1efcad8f33b7b3c6387522831e09fc593",
+    "retrieved": "2026-10-26",
+    "processing": "Format conversion only; original proportions retained."
+  },
+  {
+    "name": "Koenig & Bauer AG",
+    "id": "koenigbauer",
+    "logo": "assets/industry/koenigbauer.png",
+    "source_page": "https://www.koenig-bauer.com/",
+    "logo_source": "https://www.koenig-bauer.com/_assets/3d6253b02f7bd6def90fbe956f20225a/images/logo-koenig-bauer.svg",
+    "sha256": "6173d31efd3d0fa4aab98943b04672a75c3d300c20c45e3895cd05c27c2753a8",
+    "retrieved": "2026-10-26",
+    "processing": "Format conversion only; original proportions retained."
+  },
+  {
+    "name": "MINDA Industrieanlagen GmbH",
+    "id": "minda",
+    "logo": "assets/industry/minda.png",
+    "source_page": "https://www.minda.com/",
+    "logo_source": "https://www.minda.com/",
+    "sha256": "d597975e3fe15d6e62681a8a43baac9bcf39041144e6a38ae5f55be3a43ada74",
+    "retrieved": "2026-10-26",
+    "processing": "Format conversion only; original proportions retained."
+  },
+  {
+    "name": "Mitsubishi Heavy Industries EMEA, Ltd.",
+    "id": "mhi",
+    "logo": "assets/industry/mhi.png",
+    "source_page": "https://www.mhi.com/",
+    "logo_source": "https://www.mhi.com/themes/custom/mhi/logo_en.svg",
+    "sha256": "d3bfa60acd0cc51022fa8489a06f237a831c1986eb4657667599f91cdb1dc0ca",
+    "retrieved": "2026-10-26",
+    "processing": "Format conversion only; original proportions retained."
+  },
+  {
+    "name": "Mondi AG",
+    "id": "mondi",
+    "logo": "assets/industry/mondi.png",
+    "source_page": "https://www.mondigroup.com/",
+    "logo_source": "https://www.mondigroup.com/ui/gfx/icons/logo.svg",
+    "sha256": "3a5f60431df2aae2b4d511f1f363831147bba5d0a92f06684b3f08ff4f2f24e3",
+    "retrieved": "2026-10-26",
+    "processing": "Format conversion only; original proportions retained."
+  },
+  {
+    "name": "OM Partners n.v.",
+    "id": "omp",
+    "logo": "assets/industry/omp.png",
+    "source_page": "https://omp.com/",
+    "logo_source": "https://omp.com/-/media/Images/Main/omp-logo.png?w=450",
+    "sha256": "54ee752685c2bc3f0982557d051dae64a6cbec7919b10c2919ca15aca030e22b",
+    "retrieved": "2026-10-26",
+    "processing": "Format conversion only; original proportions retained."
+  },
+  {
+    "name": "openpack GmbH",
+    "id": "openpack",
+    "logo": "assets/industry/openpack.png",
+    "source_page": "https://www.openpack.com/",
+    "logo_source": "https://www.openpack.com/wp-content/uploads/yootheme/cache/4a/openpack_Logo_pos_RGB-4a7a80b1.png",
+    "sha256": "02ef83772a9127ed0f6620624e857f7f433fc3df869dfbfc341a5c610cdde803",
+    "retrieved": "2026-10-26",
+    "processing": "Format conversion only; original proportions retained."
+  },
+  {
+    "name": "Palm Papierfabrik GmbH&Co KG",
+    "id": "palm",
+    "logo": "assets/industry/palm.png",
+    "source_page": "https://www.palm.de/",
+    "logo_source": "Company-supplied JPEG, relayed by the maintainer on 2026-10-26",
+    "sha256": "0cb17615f2ad986a80a008e3e628ea0e740ea6cafb5a2205a67b26085430bbbd",
+    "retrieved": "2026-10-26",
+    "processing": "JPEG to PNG format conversion only; original pixels, dimensions and proportions retained.",
+    "source_sha256": "9e33bc87908245226aa9899c1c25b745bd377cd1700c5392a3638c86e1f52d4a"
+  },
+  {
+    "name": "SSH Software und Systemberatung GmbH",
+    "id": "ssh",
+    "logo": "assets/industry/ssh.png",
+    "source_page": "https://ssh-gmbh.de/",
+    "logo_source": "https://ssh-gmbh.de/wp-content/uploads/2021/08/logo_ssh-gmbh_transparent_SSH-weis.png",
+    "sha256": "ef0b5207f5cc4c02cc14662fb91760dd43e255ccc227618b2286fb0855348546",
+    "retrieved": "2026-10-26",
+    "processing": "Format conversion only; original proportions retained. Reverse artwork shown on a dark backing."
+  },
+  {
+    "name": "THIMM Verpackung GmbH + Co. KG",
+    "id": "thimm",
+    "logo": "assets/industry/thimm.png",
+    "source_page": "https://www.thimm.com/",
+    "logo_source": "https://www.thimm.com/typo3conf/ext/siteskin/Resources/Public/Images/Logos/thimm.png",
+    "sha256": "8888ec28fcb8116cc3a56347a4e5bf18968adf83914b574f77f4beef284c3b7e",
+    "retrieved": "2026-10-26",
+    "processing": "Format conversion only; original proportions retained."
+  },
+  {
+    "name": "Wilhelm Bahmüller Maschinenbau Präzisionswerkzeuge GmbH",
+    "id": "bahmueller",
+    "logo": "assets/industry/bahmueller.png",
+    "source_page": "https://www.bahmueller.de/",
+    "logo_source": "https://www.bahmueller.de/assets/static/bahmueller-logo.svg",
+    "sha256": "ae3ce1682d06b4e175a40e68c32b37e67a6fac68b622b5cd025556d13a319f90",
+    "retrieved": "2026-10-26",
+    "processing": "Format conversion only; original proportions retained."
+  },
+  {
+    "name": "WITRON Logistik + Informatik GmbH & Co. KG",
+    "id": "witron",
+    "logo": "assets/industry/witron.png",
+    "source_page": "https://www.witron.de/",
+    "logo_source": "https://www.aeb.com/media/img/about-aeb/partner/logo-witron.jpg",
+    "logo_source_page": "https://www.aeb.com/en/partner/witron-logistik-informatik.php",
+    "verification": "Visually matched against WITRON official brochure page 7; latest brand approval not established.",
+    "comparison_source": "https://witron.de/fileadmin/user_upload/flyer/ma_aio_flyer_en.pdf",
+    "sha256": "4c564b279d5f35a948863ab7a2bdbd17a41d66435f5a1dbd66451751bc3efcd4",
+    "retrieved": "2026-10-26",
+    "processing": "Format conversion only; original proportions retained."
+  }
+]

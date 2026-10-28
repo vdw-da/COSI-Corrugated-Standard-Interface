@@ -1,0 +1,317 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "cosi:setup-corrugator-payload:1.0",
+  "title": "COSI — Setup Corrugator Payload",
+  "description": "Payload for setup-corrugator messages (assetClass=setup-corrugator). Carries one corrugator setup with board grade, paper specs, per-order cutting/scoring layout, and periphery device settings. ERP/MES sends setup instructions; the machine publishes changed setup settings back to ERP/MES, including operator edits (S2).",
+  "type": "object",
+  "required": ["setupSettings", "boardGradeSettings", "orders", "periphery"],
+
+  "$defs": {
+
+    "Quantity": { "$ref": "cosi:common-defs:1.0#/$defs/Quantity" },
+
+    "QuantityMM": { "$ref": "cosi:common-defs:1.0#/$defs/QuantityMM" },
+
+    "PaperSpec": {
+      "description": "Paper specification for one roll position.",
+      "type": "object",
+      "required": ["paperId", "gsm", "caliper", "width", "requiredFSC"],
+      "properties": {
+        "paperId":     { "type": ["string", "null"], "description": "Paper grade or article identifier. Null when the position is inactive." },
+        "gsm":         { "type": "object", "allOf": [{ "$ref": "#/$defs/Quantity" }], "properties": { "uom": { "const": "g/m²" } }, "description": "Paper grammage in g/m²." },
+        "caliper":     { "$ref": "#/$defs/QuantityMM", "description": "Paper caliper in mm." },
+        "width":       { "$ref": "#/$defs/QuantityMM", "description": "Reel width in mm." },
+        "requiredFSC": {
+          "type": ["string", "null"],
+          "description": "Required FSC certification level (open enum — e.g., '100%', '75%', 'Recycled'). Null when FSC is not required."
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "ProcessAdds": {
+      "description": "Process additions applied to a paper web.",
+      "type": "object",
+      "required": ["waterResistant", "whiteTop", "wax", "coating"],
+      "properties": {
+        "waterResistant": { "type": "boolean" },
+        "whiteTop":       { "type": "boolean" },
+        "wax":            { "type": "boolean" },
+        "coating":        { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+
+    "Preprint": {
+      "description": "Preprint register mark settings for one corrugator order.",
+      "type": "object",
+      "required": ["active", "markDefinition", "mark1Width", "gap1Width", "mark2Width", "gap2Width", "mark3Width", "windowWidth", "markToEdge", "markOffset", "printSide", "colorContrast"],
+      "properties": {
+        "active":         { "type": "boolean" },
+        "markDefinition": { "type": "integer", "minimum": 0 },
+        "mark1Width":     { "$ref": "#/$defs/QuantityMM" },
+        "gap1Width":      { "$ref": "#/$defs/QuantityMM" },
+        "mark2Width":     { "$ref": "#/$defs/QuantityMM" },
+        "gap2Width":      { "$ref": "#/$defs/QuantityMM" },
+        "mark3Width":     { "$ref": "#/$defs/QuantityMM" },
+        "windowWidth":    { "$ref": "#/$defs/QuantityMM" },
+        "markToEdge":     { "$ref": "#/$defs/QuantityMM" },
+        "markOffset":     { "$ref": "#/$defs/QuantityMM" },
+        "printSide":      { "type": "string", "description": "Open enum — e.g., 'bottom', 'top'." },
+        "colorContrast":  { "type": "number" }
+      },
+      "additionalProperties": false
+    },
+
+    "ScoringProfile": {
+      "description": "Scoring tool profile definition.",
+      "type": "object",
+      "required": ["profileId", "profileType", "offset", "depth"],
+      "properties": {
+        "profileId":   { "type": "integer", "minimum": 1 },
+        "profileType": { "type": ["string", "null"], "description": "Tool profile type (e.g., 'V-cut'). Null for inactive profiles." },
+        "offset":      { "type": "integer", "description": "Direction code: -1 = left, 0 = centre, 1 = right, 2 = special." },
+        "depth":       { "$ref": "#/$defs/QuantityMM", "description": "Scoring depth in mm." }
+      },
+      "additionalProperties": false
+    },
+
+    "ScoringPosition": {
+      "description": "One scoring knife position.",
+      "type": "object",
+      "required": ["position", "value", "uom", "profileId"],
+      "properties": {
+        "position":  { "type": "integer", "minimum": 1, "maximum": 24 },
+        "value":     { "type": "number", "minimum": 0, "description": "Relative position for 1 order for 1 out." },
+        "uom":       { "type": "string", "const": "mm" },
+        "profileId": { "type": "integer", "minimum": 1, "description": "References a profileId in scoringProfiles." }
+      },
+      "additionalProperties": false
+    },
+
+    "SingleFacerSettings": {
+      "type": "object",
+      "required": ["active", "linerPaper", "mediumPaper", "fluteType", "processAdds"],
+      "properties": {
+        "active":       { "type": "boolean" },
+        "linerPaper":   { "$ref": "#/$defs/PaperSpec" },
+        "mediumPaper":  { "$ref": "#/$defs/PaperSpec" },
+        "fluteType":    { "type": ["string", "null"], "description": "Flute profile (e.g., 'B', 'C'). Null when the single facer is inactive." },
+        "processAdds":  { "$ref": "#/$defs/ProcessAdds" }
+      },
+      "additionalProperties": false
+    },
+
+    "DoubleBackerSettings": {
+      "type": "object",
+      "required": ["active", "linerPaper", "processAdds"],
+      "properties": {
+        "active":      { "type": "boolean" },
+        "linerPaper":  { "$ref": "#/$defs/PaperSpec" },
+        "processAdds": { "$ref": "#/$defs/ProcessAdds" }
+      },
+      "additionalProperties": false
+    },
+
+    "FanfoldSettings": {
+      "type": "object",
+      "required": ["active", "orderIndex", "numberOfFolds", "creaseLength"],
+      "properties": {
+        "active":        { "type": "boolean" },
+        "orderIndex":    { "type": "integer", "minimum": 0, "description": "Index of the order this fanfold device serves (0 = unassigned)." },
+        "numberOfFolds": { "type": "integer", "minimum": 0 },
+        "creaseLength":  { "$ref": "#/$defs/QuantityMM" }
+      },
+      "additionalProperties": false
+    },
+
+    "TapeSettings": {
+      "type": "object",
+      "required": ["active", "orderIndex", "tapeType", "positions"],
+      "properties": {
+        "active":     { "type": "boolean" },
+        "orderIndex": { "type": "integer", "minimum": 0 },
+        "tapeType":   { "type": "string", "description": "Open enum — tape material or product type." },
+        "positions":  {
+          "type": "array",
+          "items": { "$ref": "#/$defs/QuantityMM" },
+          "description": "Lateral tape application positions in mm from web edge."
+        }
+      },
+      "additionalProperties": false
+    }
+
+  },
+
+  "properties": {
+
+    "customProps": {
+      "$ref": "cosi:common-defs:1.0#/$defs/CustomProps"
+    },
+
+    "setupSettings": {
+      "type": "object",
+      "required": ["setupId", "webWidth", "leftTrim", "rightTrim", "speed", "control1Speed", "control2Speed", "runningLength"],
+      "properties": {
+        "setupId": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Identifier of one planned execution, unique within site/machine. Revisions and continuation after interruption preserve it; a separate execution gets a distinct identifier. quality.setupRef references it in the same context."
+        },
+        "webWidth":   { "$ref": "#/$defs/QuantityMM", "description": "Full corrugator web width." },
+        "leftTrim":   { "$ref": "#/$defs/QuantityMM", "description": "Left edge trim in mm." },
+        "rightTrim":  { "$ref": "#/$defs/QuantityMM", "description": "Right edge trim in mm." },
+        "speed": {
+          "type": "object",
+          "required": ["uom"],
+          "properties": {
+            "uom":     { "type": "string", "const": "m/min" },
+            "target":  { "type": ["number", "null"], "minimum": 0 }
+          },
+          "additionalProperties": false,
+          "description": "Qualified speed group. target = reference speed supplied by ERP/MES for this setup according to the plant's business rules. COSI does not prescribe how the baseline is calculated."
+        },
+        "control1Speed": { "$ref": "#/$defs/Quantity", "description": "Speed setting for control point 1 in m/min." },
+        "control2Speed": { "$ref": "#/$defs/Quantity", "description": "Speed setting for control point 2 in m/min." },
+        "runningLength": {
+          "type": "object",
+          "required": ["uom"],
+          "properties": {
+            "uom":       { "type": "string", "const": "m" },
+            "scheduled": { "type": ["number", "null"], "minimum": 0 }
+          },
+          "additionalProperties": false,
+          "description": "Requested running length for this execution in metres; not actual production."
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "boardGradeSettings": {
+      "type": "object",
+      "required": ["boardGradeRef", "fluteType", "caliper"],
+      "properties": {
+        "boardGradeRef": { "type": "string", "description": "Reference to the board grade specification in ERP / MES." },
+        "fluteType":     { "type": "string", "description": "Open enum — flute combination (e.g., 'B', 'C', 'BC', 'E')." },
+        "caliper":       { "$ref": "#/$defs/QuantityMM", "description": "Target board caliper in mm." }
+      },
+      "additionalProperties": false
+    },
+
+
+    "orders": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["orderType", "l2rSequenceNumber"],
+        "properties": {
+          "customProps": { "$ref": "cosi:common-defs:1.0#/$defs/CustomProps" },
+          "orderType": {
+            "type": "string",
+            "enum": ["production", "waste-run", "side-order"],
+            "description": "'production' = standard corrugator order. 'waste-run' = trim strip too wide for the trim system. 'side-order' = productive order cut from a side strip."
+          },
+          "orderRef":          { "type": "string", "description": "Manufacturing order reference from ERP / MES." },
+          "partRef":           { "type": "string", "description": "Part reference within the order." },
+          "articleRef":        { "type": "string", "description": "Article / product specification reference." },
+          "customerName":      { "type": "string" },
+          "processingMachine": { "type": "string", "description": "Identifier of the converting machine that will process this order." },
+          "destinationLine":   { "type": "integer", "minimum": 0, "description": "Destination output line number." },
+          "sheetWidth":        { "$ref": "#/$defs/QuantityMM", "description": "Cut sheet width." },
+          "sheetLength":       { "$ref": "#/$defs/QuantityMM", "description": "Cut sheet length." },
+          "cuts": {
+            "type": "object",
+            "required": ["uom"],
+            "properties": {
+              "uom":    { "type": "string", "const": "cuts" },
+              "target": { "type": ["number", "null"], "minimum": 0 }
+            },
+            "additionalProperties": false,
+            "description": "Requested number of cross-cuts for this order; setup instructions do not establish actual output."
+          },
+          "numberOfOuts":      { "type": "integer", "minimum": 1, "description": "Number of sheets cut side by side from the web width." },
+          "cutoffAllocation":  { "type": "integer", "minimum": 0, "description": "Cut-off sheet allocation offset." },
+          "l2rSequenceNumber": { "type": "integer", "minimum": 0, "description": "Left-to-right sequence number of the orders defining the layout on the machine. See glossary for definition." },
+          "preprint":        { "$ref": "#/$defs/Preprint" },
+          "scoringProfiles": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "$ref": "#/$defs/ScoringProfile" },
+            "description": "Scoring tool profiles available for this order."
+          },
+          "scoringPositions": {
+            "type": "array",
+            "minItems": 24,
+            "maxItems": 24,
+            "items": { "$ref": "#/$defs/ScoringPosition" },
+            "description": "Exactly 24 scoring knife positions. Unused positions carry value 0."
+          },
+          "stackHeight":        { "type": "object", "allOf": [{ "$ref": "#/$defs/Quantity" }], "properties": { "uom": { "const": "mm" } }, "description": "Requested physical stack height in millimetres." },
+          "stackCount":         { "type": "object", "allOf": [{ "$ref": "#/$defs/Quantity" }], "properties": { "uom": { "const": "pcs" } }, "description": "Requested number of sheets per stack; not a count of physical stacks or actual output." },
+          "lastRun":            { "type": "boolean", "description": "True when this is the final run for this order." },
+          "dischargeDirection": { "type": "string", "description": "Open enum — e.g., 'OS' (operator side), 'DS' (drive side)." },
+          "intermediateLayer":  { "type": "boolean", "description": "True when an intermediate layer sheet is inserted between stacks." },
+          "palletType":         { "type": "string", "description": "Open enum — pallet type (e.g., 'Euro', 'Industrial')." }
+        },
+        "if": {
+          "properties": {
+            "orderType": { "const": "production" }
+          }
+        },
+        "then": {
+          "required": ["orderRef", "partRef", "articleRef", "customerName", "processingMachine", "destinationLine", "sheetWidth", "sheetLength", "cuts", "numberOfOuts", "cutoffAllocation", "preprint", "scoringProfiles", "scoringPositions", "stackHeight", "stackCount", "lastRun", "dischargeDirection", "intermediateLayer", "palletType"]
+        },
+        "else": {
+          "required": ["sheetWidth", "sheetLength", "cutoffAllocation"]
+        },
+        "additionalProperties": false
+      },
+      "description": "Corrugator orders within this setup (typically 1–3), including production orders and optional side/waste strips in one shared array."
+    },
+
+    "periphery": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["deviceId", "deviceType", "settings"],
+        "properties": {
+          "deviceId":   { "type": "string", "description": "Machine-internal device identifier (e.g., 'SF1', 'DB')." },
+          "deviceType": { "type": "string", "enum": ["single-facer", "double-backer", "fanfold", "tape"] },
+          "settings":   { "type": "object" }
+        },
+        "oneOf": [
+          {
+            "properties": {
+              "deviceType": { "const": "single-facer" },
+              "settings":   { "$ref": "#/$defs/SingleFacerSettings" }
+            }
+          },
+          {
+            "properties": {
+              "deviceType": { "const": "double-backer" },
+              "settings":   { "$ref": "#/$defs/DoubleBackerSettings" }
+            }
+          },
+          {
+            "properties": {
+              "deviceType": { "const": "fanfold" },
+              "settings":   { "$ref": "#/$defs/FanfoldSettings" }
+            }
+          },
+          {
+            "properties": {
+              "deviceType": { "const": "tape" },
+              "settings":   { "$ref": "#/$defs/TapeSettings" }
+            }
+          }
+        ],
+        "additionalProperties": false
+      },
+      "description": "Periphery devices attached to the corrugator (single facers, double backer, fanfold, tape)."
+    }
+
+  },
+
+  "additionalProperties": false
+}

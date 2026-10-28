@@ -1,0 +1,403 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "cosi:setup-converting-payload:1.0",
+  "title": "COSI — Setup Converting Payload",
+  "description": "Payload for setup-converting messages (assetClass=setup-converting). Carries job, article, material, machine settings and periphery device setup for one converting machine job. ERP/MES sends setup instructions; the machine publishes changed setup settings back to ERP/MES, including operator edits (S2).",
+  "type": "object",
+  "required": ["jobSettings", "articleSettings", "rawMaterial", "machineSettings", "periphery"],
+
+  "$defs": {
+
+    "Quantity": { "$ref": "cosi:common-defs:1.0#/$defs/Quantity" },
+
+    "QuantityMM": { "$ref": "cosi:common-defs:1.0#/$defs/QuantityMM" },
+
+    "Score": {
+      "description": "One scoring or creasing knife definition.",
+      "type": "object",
+      "required": ["scoreId", "scoreType", "position"],
+      "properties": {
+        "scoreId":   { "type": "integer", "minimum": 1 },
+        "scoreType": { "type": ["string", "null"], "description": "Open enum — e.g., 'V-cut', 'perf', 'half-cut'. Null for inactive scores." },
+        "position":  { "$ref": "#/$defs/QuantityMM", "description": "Knife position from sheet edge in mm." }
+      },
+      "additionalProperties": false
+    },
+
+    "FlexoPrintSettings": {
+      "type": "object",
+      "required": ["active", "color", "inkName", "plateId", "position", "register", "cylinderCentering", "cylinderCalibration", "aniloxCalibration", "useDryer", "plateHeight"],
+      "properties": {
+        "active":              { "type": "boolean" },
+        "color": {
+          "type": "object",
+          "required": ["value", "uom"],
+          "properties": {
+            "value": { "type": "string", "description": "Colour reference as a string — e.g., ARGB hex, Pantone code, or an ERP colour/SKU reference." },
+            "uom":   { "type": "string", "description": "Open enum — colour reference scheme (e.g., 'ARGB', 'Pantone', 'SKU')." }
+          },
+          "additionalProperties": false,
+          "description": "Ink colour reference; the uom names the reference scheme."
+        },
+        "inkName":             { "type": "string" },
+        "plateId":             { "type": ["string", "null"], "description": "Printing plate reference. Null when no plate is mounted." },
+        "position":            { "type": "object", "allOf": [{ "$ref": "#/$defs/Quantity" }], "properties": { "uom": { "const": "station" } }, "description": "Print station number with uom='station'." },
+        "register":            { "$ref": "#/$defs/QuantityMM", "description": "Longitudinal register offset in mm." },
+        "cylinderCentering":   { "$ref": "#/$defs/QuantityMM" },
+        "cylinderCalibration": { "$ref": "#/$defs/QuantityMM" },
+        "aniloxCalibration":   { "$ref": "#/$defs/QuantityMM" },
+        "useDryer":            { "type": "boolean" },
+        "plateHeight":         { "$ref": "#/$defs/QuantityMM", "description": "Plate/sleeve height in mm." }
+      },
+      "additionalProperties": false
+    },
+
+    "DigitalInkjetSettings": {
+      "type": "object",
+      "required": ["active", "printFileUrl", "printWidth", "printHeight", "numberOfCopies", "colorCorrection", "resolution", "substrate", "orientation", "leadIn", "leadOut"],
+      "properties": {
+        "active":          { "type": "boolean" },
+        "printFileUrl":    { "type": "string", "description": "URI to the print file." },
+        "printWidth":      { "$ref": "#/$defs/QuantityMM" },
+        "printHeight":     { "$ref": "#/$defs/QuantityMM" },
+        "numberOfCopies":  { "type": "integer", "minimum": 0 },
+        "colorCorrection": { "type": ["string", "null"] },
+        "resolution":      { "type": "object", "allOf": [{ "$ref": "#/$defs/Quantity" }], "properties": { "uom": { "const": "dpi" } }, "description": "Print resolution with uom='dpi'." },
+        "substrate":       { "type": ["string", "null"] },
+        "orientation":     { "type": "string", "description": "Open enum — e.g., 'TOP', 'BOTTOM'." },
+        "leadIn":          { "$ref": "#/$defs/QuantityMM" },
+        "leadOut":         { "$ref": "#/$defs/QuantityMM" }
+      },
+      "additionalProperties": false
+    },
+
+    "InfeedSettings": {
+      "type": "object",
+      "required": ["active", "feedType", "inputWidth", "inputLength", "numberIn"],
+      "properties": {
+        "active":   { "type": "boolean" },
+        "feedType": { "type": ["string", "null"], "description": "Open enum — e.g., 'vacuum', 'gripper'. Null when no special feed system is used." },
+        "inputWidth":   { "$ref": "#/$defs/QuantityMM", "description": "Input sheet width in mm." },
+        "inputLength":  { "$ref": "#/$defs/QuantityMM", "description": "Input sheet length in mm." },
+        "numberIn": { "type": "number", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+
+    "DieCutterSettings": {
+      "type": "object",
+      "required": ["active", "cutterType", "upsWidth", "upsLength", "toolRef", "diePressure", "cuttingForce", "offsetScoring", "scores"],
+      "properties": {
+        "stationNumber": { "type": "integer"},
+        "active":        { "type": "boolean" },
+        "cutterType":    { "type": "string", "description": "Open enum — e.g., 'rotary', 'flatbed'." },
+        "upsWidth":      { "type": "integer", "minimum": 1, "description": "Number of ups across sheet width." },
+        "upsLength":     { "type": "integer", "minimum": 1, "description": "Number of ups along sheet length." },
+        "toolRef":       { "type": ["string", "null"], "description": "Die-cutting tool reference. Null when inactive." },
+        "diePressure":   { "type": "object", "allOf": [{ "$ref": "#/$defs/Quantity" }], "properties": { "uom": { "const": "kN" } }, "description": "Die pressure in kN." },
+        "cuttingForce":  { "type": "object", "allOf": [{ "$ref": "#/$defs/Quantity" }], "properties": { "uom": { "const": "kN" } }, "description": "Cutting force in kN." },
+        "cuttingDepth":  { "$ref": "#/$defs/QuantityMM", "description": "Cutting depth in mm." },
+        "offsetScoring": { "$ref": "#/$defs/QuantityMM", "description": "Scoring offset in mm." },
+        "scores": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Score" }
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "FolderGluerSettings": {
+      "type": "object",
+      "required": ["active", "glueType", "glueStyle", "glueAmount"],
+      "properties": {
+        "active":     { "type": "boolean" },
+        "glueType":   { "type": "integer", "description": "Glue type code (machine-specific integer)." },
+        "glueStyle":  { "type": "string",  "description": "Open enum — e.g., 'GI' (glue inside), 'GO' (glue outside), '3P' (three-point)." },
+        "glueAmount": { "type": "object", "allOf": [{ "$ref": "#/$defs/Quantity" }], "properties": { "uom": { "const": "g/m²" } }, "description": "Glue application amount in g/m²." }
+      },
+      "additionalProperties": false
+    },
+
+    "StitcherSettings": {
+      "type": "object",
+      "required": ["active", "stitchType"],
+      "properties": {
+        "active":     { "type": "boolean" },
+        "stitchType": { "type": "integer", "description": "Stitch type code (machine-specific integer)." }
+      },
+      "additionalProperties": false
+    },
+
+    "TaperSettings": {
+      "type": "object",
+      "required": ["active", "tapeType"],
+      "properties": {
+        "active":   { "type": "boolean" },
+        "tapeType": { "type": "string", "description": "Open enum — tape product type." }
+      },
+      "additionalProperties": false
+    },
+
+    "BundleStrapperSettings": {
+      "type": "object",
+      "required": ["active", "itemsPerBundle", "bundleWidth", "bundleHeight", "bundlePositionLateral"],
+      "properties": {
+        "active":                { "type": "boolean" },
+        "itemsPerBundle":        { "type": "object", "allOf": [{ "$ref": "#/$defs/Quantity" }], "properties": { "uom": { "const": "pcs" } }, "description": "Number of items per bundle (uom='pcs')." },
+        "bundleWidth":           { "$ref": "#/$defs/QuantityMM" },
+        "bundleHeight":          { "$ref": "#/$defs/QuantityMM" },
+        "bundlePositionLateral": { "$ref": "#/$defs/QuantityMM", "description": "Lateral centre position of the bundle in mm." }
+      },
+      "additionalProperties": false
+    },
+
+    "PalletizerSettings": {
+      "type": "object",
+      "required": ["active", "palletType", "palletLength", "palletWidth", "maxHeight", "itemsPerPallet", "numberOfLayers", "packetsPerLayer", "compositionRef", "interleaves", "strapping", "wrapping", "counterPallet", "coverSheet", "bottomSheet", "cornerProtection", "label"],
+      "properties": {
+        "active":          { "type": "boolean" },
+        "palletType":      { "type": "integer", "description": "Pallet type code (machine-specific integer)." },
+        "palletLength":    { "$ref": "#/$defs/QuantityMM" },
+        "palletWidth":     { "$ref": "#/$defs/QuantityMM" },
+        "maxHeight":       { "$ref": "#/$defs/QuantityMM", "description": "Maximum allowed pallet height in mm." },
+        "itemsPerPallet":  { "type": "object", "allOf": [{ "$ref": "#/$defs/Quantity" }], "properties": { "uom": { "const": "pcs" } }, "description": "Total items per pallet (uom='pcs')." },
+        "numberOfLayers":  { "type": "integer", "minimum": 0 },
+        "packetsPerLayer": { "type": "integer", "minimum": 0 },
+        "compositionRef":  { "type": ["string", "null"], "description": "Reference to the pallet composition pattern. Null if not defined." },
+        "interleaves":     { "type": "boolean", "description": "True when interleave sheets are placed between pallet layers." },
+        "strapping": {
+          "type": "object",
+          "required": ["active", "positions", "numberOfStraps", "pressure", "programId"],
+          "properties": {
+            "active":         { "type": "boolean" },
+            "positions":      { "type": "array", "items": { "type": "number" }, "description": "Strap positions in mm from pallet edge." },
+            "numberOfStraps": { "type": "integer", "minimum": 0 },
+            "pressure":       { "type": "object", "allOf": [{ "$ref": "#/$defs/Quantity" }], "properties": { "uom": { "const": "kN" } }, "description": "Strap tension in kN." },
+            "programId":      { "type": ["string", "null"], "description": "Strapping program reference. Null when not defined." }
+          },
+          "additionalProperties": false
+        },
+        "wrapping": {
+          "type": "object",
+          "required": ["active", "programId", "wrapType"],
+          "properties": {
+            "active":    { "type": "boolean" },
+            "programId": { "type": ["string", "null"], "description": "Wrapping program identifier. Null when not defined." },
+            "wrapType":  { "type": "integer", "description": "Wrap type code (machine-specific integer)." }
+          },
+          "additionalProperties": false
+        },
+        "counterPallet":    { "type": "boolean", "description": "True when a counter-pallet is placed on top." },
+        "coverSheet":       { "type": "boolean" },
+        "bottomSheet":      { "type": "boolean" },
+        "cornerProtection": { "type": "boolean" },
+        "label": {
+          "type": "object",
+          "required": ["position", "data"],
+          "properties": {
+            "position": { "type": ["string", "null"], "description": "Label placement position (open enum — e.g., 'OS-front'). Null if not defined." },
+            "data":     { "type": ["string", "null"], "description": "Label content or template reference. Null if not defined." }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+
+  },
+
+  "properties": {
+
+    "customProps": {
+      "$ref": "cosi:common-defs:1.0#/$defs/CustomProps"
+    },
+
+    "quickSetId": {
+      "type": ["string", "null"],
+      "description": "Reference to a saved quick-set template. Null when not used."
+    },
+
+    "jobSettings": {
+      "type": "object",
+      "required": ["jobRef", "orderRef", "customer", "dueDate", "quantity", "autoStopFeed"],
+      "properties": {
+        "jobRef":   { "type": "string", "description": "Manufacturing order reference from ERP / MES." },
+        "orderRef": { "type": ["string", "null"], "description": "Sub-order reference within the job. Null when not applicable." },
+        "customer": { "type": ["string", "null"] },
+        "dueDate":  { "type": ["string", "null"], "format": "date-time", "description": "Production due date — ISO 8601 UTC. Null when not planned." },
+        "quantity": {
+          "type": "object",
+          "required": ["uom"],
+          "properties": {
+            "uom":       { "type": "string", "const": "pcs" },
+            "scheduled": { "type": ["number", "null"], "minimum": 0 }
+          },
+          "additionalProperties": false,
+          "description": "Qualified quantity group: scheduled = planned quantity (production actuals are not part of setup messages, see ADR-000005)."
+        },
+        "autoStopFeed": { "type": "boolean", "description": "True when the feeder auto-stops at the scheduled quantity." }
+      },
+      "additionalProperties": false
+    },
+
+    "articleSettings": {
+      "type": "object",
+      "required": ["articleRef", "boxType", "boxWidth", "boxLength", "boxHeight", "glueTab", "register", "panels"],
+      "properties": {
+        "articleRef": { "type": "string", "description": "Article / product specification reference." },
+        "boxType":    { "type": "object", "allOf": [{ "$ref": "#/$defs/Quantity" }], "properties": { "uom": { "const": "FEFCO" } }, "description": "FEFCO style code as integer value with uom='FEFCO'." },
+        "boxWidth":   { "$ref": "#/$defs/QuantityMM", "description": "Box internal width in mm." },
+        "boxLength":  { "$ref": "#/$defs/QuantityMM", "description": "Box internal length in mm." },
+        "boxHeight":  { "$ref": "#/$defs/QuantityMM", "description": "Box internal height in mm." },
+        "glueTab":    { "$ref": "#/$defs/QuantityMM", "description": "Glue tab width in mm." },
+        "register":   { "$ref": "#/$defs/QuantityMM", "description": "Print register offset in mm." },
+        "panels": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["panelId", "value", "uom"],
+            "properties": {
+              "panelId": { "type": "string", "description": "Panel label (e.g., 'A', 'B', 'C', 'D', 'A1')." },
+              "value":   { "type": "number" },
+              "uom":     { "type": "string", "const": "mm" }
+            },
+            "additionalProperties": false
+          },
+          "description": "Panel width breakdown. Panel sequence follows FEFCO notation."
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "rawMaterial": {
+      "type": "object",
+      "required": ["flute", "grade", "boardThickness", "surfaceType", "crossFlute", "papers"],
+      "properties": {
+        "flute":          { "type": "string", "description": "Open enum — flute type (e.g., 'B', 'C', 'BC', 'E')." },
+        "grade":          { "type": "string", "description": "Board grade description." },
+        "boardThickness": { "$ref": "#/$defs/QuantityMM", "description": "Nominal board caliper in mm." },
+        "surfaceType":    { "type": ["string", "null"], "description": "Open enum — surface treatment (e.g., 'white-top', 'coated'). Null when not applicable." },
+        "crossFlute":     { "type": "boolean", "description": "True when the board is run cross-flute orientation." },
+        "papers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["layer", "gsm", "paperType"],
+            "properties": {
+              "layer":     { "type": "string", "description": "Open enum — layer position (e.g., 'liner-top', 'fluting', 'liner-bottom')." },
+              "gsm":       { "type": "object", "allOf": [{ "$ref": "#/$defs/Quantity" }], "properties": { "uom": { "const": "g/m²" } }, "description": "Paper grammage in g/m²." },
+              "paperType": { "type": ["string", "null"], "description": "Open enum — paper type description. Null when not specified." }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "machineSettings": {
+      "type": "object",
+      "required": ["taskRef", "stageNo", "outputWidth", "outputLength", "speed", "setupDuration", "infeedSettings"],
+      "properties": {
+        "taskRef":      { "type": ["string", "null"], "description": "Manufacturing step reference within the order. Null when not assigned." },
+        "stageNo":      { "type": "integer", "minimum": 0, "description": "Production stage number within a multi-stage job." },
+        "outputWidth":  { "$ref": "#/$defs/QuantityMM", "description": "Output blank width in mm." },
+        "outputLength": { "$ref": "#/$defs/QuantityMM", "description": "Output blank length in mm." },
+        "infeedSettings": { "$ref": "#/$defs/InfeedSettings" },
+        "speed": {
+          "type": "object",
+          "required": ["uom"],
+          "properties": {
+            "uom":       { "type": "string", "const": "pcs/h" },
+            "target":    { "type": ["number", "null"], "minimum": 0 },
+            "scheduled": { "type": ["number", "null"], "minimum": 0 }
+          },
+          "additionalProperties": false,
+          "description": "Qualified speed group in pcs/h."
+        },
+        "setupDuration": {
+          "type": "object",
+          "required": ["uom"],
+          "properties": {
+            "uom":       { "type": "string", "const": "s" },
+            "target":    { "type": ["number", "null"], "minimum": 0 },
+            "scheduled": { "type": ["number", "null"], "minimum": 0 }
+          },
+          "additionalProperties": false,
+          "description": "Qualified setup duration group in seconds."
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "periphery": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["deviceId", "deviceType", "settings"],
+        "properties": {
+          "deviceId":   { "type": "string", "description": "Machine-internal device identifier." },
+          "deviceType": { "type": "string", "enum": ["flexo-print", "digital-inkjet", "die-cutter", "folder-gluer", "stitcher", "taper", "bundle-strapper", "palletizer"] },
+          "settings":   { "type": "object" }
+        },
+        "oneOf": [
+          {
+            "properties": {
+              "deviceType": { "const": "flexo-print" },
+              "settings":   { "$ref": "#/$defs/FlexoPrintSettings" }
+            }
+          },
+          {
+            "properties": {
+              "deviceType": { "const": "digital-inkjet" },
+              "settings":   { "$ref": "#/$defs/DigitalInkjetSettings" }
+            }
+          },
+          {
+            "properties": {
+              "deviceType": { "const": "die-cutter" },
+              "settings":   { "$ref": "#/$defs/DieCutterSettings" }
+            }
+          },
+          {
+            "properties": {
+              "deviceType": { "const": "folder-gluer" },
+              "settings":   { "$ref": "#/$defs/FolderGluerSettings" }
+            }
+          },
+          {
+            "properties": {
+              "deviceType": { "const": "stitcher" },
+              "settings":   { "$ref": "#/$defs/StitcherSettings" }
+            }
+          },
+          {
+            "properties": {
+              "deviceType": { "const": "taper" },
+              "settings":   { "$ref": "#/$defs/TaperSettings" }
+            }
+          },
+          {
+            "properties": {
+              "deviceType": { "const": "bundle-strapper" },
+              "settings":   { "$ref": "#/$defs/BundleStrapperSettings" }
+            }
+          },
+          {
+            "properties": {
+              "deviceType": { "const": "palletizer" },
+              "settings":   { "$ref": "#/$defs/PalletizerSettings" }
+            }
+          }
+        ],
+        "additionalProperties": false
+      },
+      "description": "Periphery devices on this converting line. Each device appears once; inactive devices include active=false in settings."
+    }
+
+  },
+
+  "additionalProperties": false
+}

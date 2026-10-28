@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "cosi:queue-payload:1.0",
+  "title": "COSI — Queue payload",
+  "description": "Payload for queue messages (across converting and corrugator). Represents the retained current queue state.",
+  "type": "object",
+  "required": ["queueList"],
+  "additionalProperties": false,
+
+  "$defs": {
+    "QueueItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "setupRef": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Reference to the setup currently present in the machine queue, commonly known as setupId. The COSI field name is setupRef, following the cross-system reference naming convention."
+        },
+        "sequenceNumber": {
+          "type": "integer",
+          "description": "Optional sequence position in the queue."
+        }
+      },
+      "required": ["setupRef"]
+    },
+
+    "QueueList": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/QueueItem" },
+      "description": "Complete queue snapshot in processing order."
+    }
+
+  },
+
+  "properties": {
+    "queueList": {
+      "$ref": "#/$defs/QueueList"
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "messageID":     "3fa6f4e2-1c2d-5b3e-9a1f-2d7c8e5b0a4d",
+  "connectionId": "82fece39-6f80-5226-be75-9f2a6dc93907",
+  "assetClass":    "performance",
+  "schemaId":      "cosi:performance-payload:1.0",
+  "messageType":   "hbt",
+  "machineId":     "corr-line-01",
+  "timestamp":     "2026-05-04T06:30:00.000Z",
+  "status":        "run",
+  "payload": {
+    "speed": {
+      "uom":     "m/min",
+      "current": 182,
+      "target":  200
+    },
+
+    "energy": [
+      {
+        "name":        "Main Line",
+        "streamId":    null,
+        "jobRef":      "JOB-2026-4711",
+        "articleRef":  "BC-200-140",
+        "water":       { "value": 1.24,  "uom": "m³"     },
+        "electricity": { "value": 5200,  "uom": "Wh"     },
+        "steam":       { "value": 340,   "uom": "kg"     },
+        "air":         { "value": 0.92,  "uom": "m³"     },
+        "stacks":      { "value": 48,    "uom": "stacks" }
+      }
+    ],
+
+    "inputs": [
+      {
+        "name":          "Fluting Medium — Roll 1",
+        "streamId":      "IN-FM-1",
+        "jobRef":        "JOB-2026-4711",
+        "articleRef":    "BC-200-140",
+        "area":          { "value": 19240, "uom": "m²" },
+        "weight":        { "value": 3.85,  "uom": "t"  },
+        "runningLength": { "value": 13032, "uom": "m"  }
+      },
+      {
+        "name":          "Top Liner — Roll 2",
+        "streamId":      "IN-TL-2",
+        "jobRef":        "JOB-2026-4711",
+        "articleRef":    "BC-200-140",
+        "area":          { "value": 19240, "uom": "m²" },
+        "weight":        { "value": 4.04,  "uom": "t"  },
+        "runningLength": { "value": 13032, "uom": "m"  }
+      }
+    ],
+
+    "outputs": [
+      {
+        "name":          "Corrugated Board — Stacker",
+        "streamId":      "OUT-BD-1",
+        "jobRef":        "JOB-2026-4711",
+        "articleRef":    "BC-200-140",
+        "area":          { "value": 18560, "uom": "m²"    },
+        "weight":        { "value": 7.42,  "uom": "t"     },
+        "runningLength": { "value": 12570, "uom": "m"     },
+        "pieces":        { "value": 5024,  "uom": "pcs"   },
+        "stacks":        { "value": 48,    "uom": "stacks"}
+      }
+    ],
+
+    "logisticsStatus": [
+      {
+        "name":        "Transfer Belt — Stacker to Storage",
+        "streamId":    "LS-TB-01",
+        "statusId":    "LS-01",
+        "movement":    "running",
+        "articleRef":  "BC-200-140",
+        "area":        { "value": 920, "uom": "m²"     },
+        "pieces":      { "value": 240, "uom": "pcs"    },
+        "stacks":      { "value": 2,   "uom": "stacks" }
+      }
+    ]
+  }
+}

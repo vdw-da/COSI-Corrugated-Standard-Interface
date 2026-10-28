@@ -1,0 +1,25 @@
+{
+  "messageID":     "aa92d4b7-6f3c-5f2d-8fb2-5a11758ad531",
+  "correlationID": "7c8b2a1e-3d4f-5e5c-8b9a-1f2e3d4c5b6a",
+  "assetClass":    "setup-response",
+  "schemaId":      "cosi:setup-response-payload:1.0",
+  "messageType":   "cos",
+  "machineId":     "corr-line-01",
+  "timestamp":     "2026-07-17T10:16:00.000Z",
+  "status":        "setup",
+  "payload": {
+    "result": "NOK",
+    "errors": [
+      {
+        "fieldRef": "/payload/orders/0/sheetWidth/value",
+        "description": "Width exceeds allowed range for current machine profile.",
+        "manufacturerCode": 10042
+      },
+      {
+        "fieldRef": "/payload/setupSettings/speed/target",
+        "description": "Target speed is exceeding machine design limits.",
+        "manufacturerCode": 10411
+      }
+    ]
+  }
+}

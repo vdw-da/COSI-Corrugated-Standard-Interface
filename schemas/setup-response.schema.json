@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "cosi:setup-response-payload:1.0",
+  "title": "COSI — Setup Response Payload",
+  "description": "Payload for setup-corrugator/setup-converting response messages. Correlation to the originating setup message is done via envelope correlationID, not via setup identifiers in payload.",
+  "type": "object",
+  "oneOf": [
+    { "$ref": "#/$defs/ResponseOk" },
+    { "$ref": "#/$defs/ResponseError" }
+  ],
+
+  "$defs": {
+
+    "ErrorItem": {
+      "description": "One error linked to a setup field. Manufacturer-specific error classification is intentionally open (no standardised code list).",
+      "type": "object",
+      "required": ["fieldRef", "description", "manufacturerCode"],
+      "properties": {
+        "fieldRef": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?:/(?:[^~/]|~[01])*)+$",
+          "description": "RFC 6901 JSON Pointer rooted at the original full setup message identified by correlationID, e.g. /payload/orders/0/sheetWidth/value. Zero-based array indices; escape ~ as ~0 and / as ~1. JSON string form, not a URI fragment or dotted path."
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable explanation of the error."
+        },
+        "manufacturerCode": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Manufacturer-defined error code. Open value set by design."
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "ResponseOk": {
+      "type": "object",
+      "required": ["result"],
+      "properties": {
+        "result": {
+          "type": "string",
+          "const": "OK",
+          "description": "Processing ok for the correlated setup message."
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "ResponseError": {
+      "type": "object",
+      "required": ["result", "errors"],
+      "properties": {
+        "result": {
+          "type": "string",
+          "const": "NOK",
+          "description": "Processing failed for the correlated setup message; details in errors."
+        },
+        "errors": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/ErrorItem" },
+          "description": "One or multiple errors returned for this setup."
+        }
+      },
+      "additionalProperties": false
+    }
+
+  }
+}

@@ -1,0 +1,229 @@
+{
+  "messageID":     "d4e5f6a7-b8c9-5d1e-af2b-3c4d5e6f7a8b",
+  "assetClass":    "setup-converting",
+  "schemaId":      "cosi:setup-converting-payload:1.0",
+  "messageType":   "cos",
+  "machineId":     "ffg-line-02",
+  "timestamp":     "2026-05-04T06:30:00.000Z",
+  "status":        "setup",
+  "payload": {
+
+    "customProps": {},
+
+    "quickSetId": null,
+
+    "jobSettings": {
+      "jobRef":     "JOB-2026-4711",
+      "orderRef":   "ORD-2026-4711",
+      "customer":   "Acme Packaging GmbH",
+      "dueDate":    "2026-05-04T14:00:00.000Z",
+      "quantity": {
+        "uom":       "pcs",
+        "scheduled": 5000
+      },
+      "autoStopFeed": true
+    },
+
+    "articleSettings": {
+      "articleRef":  "ART-0201-BC",
+      "boxType":     { "value": 201,  "uom": "FEFCO" },
+      "boxWidth":    { "value": 300,  "uom": "mm" },
+      "boxLength":   { "value": 400,  "uom": "mm" },
+      "boxHeight":   { "value": 200,  "uom": "mm" },
+      "glueTab":     { "value": 36,   "uom": "mm" },
+      "register":    { "value": 0,    "uom": "mm" },
+      "panels": [
+        { "panelId": "A",  "value": 400, "uom": "mm" },
+        { "panelId": "B",  "value": 300, "uom": "mm" },
+        { "panelId": "C",  "value": 400, "uom": "mm" },
+        { "panelId": "D",  "value": 300, "uom": "mm" },
+        { "panelId": "A1", "value": 36,  "uom": "mm" }
+      ]
+    },
+
+    "rawMaterial": {
+      "flute":          "BC",
+      "grade":          "KLB 200 / SC 140 / KLB 200",
+      "boardThickness": { "value": 5.6,  "uom": "mm" },
+      "surfaceType":    null,
+      "crossFlute":     false,
+      "papers": [
+        { "layer": "liner-top",    "gsm": { "value": 200, "uom": "g/m²" }, "paperType": "Kraftliner Brown" },
+        { "layer": "fluting",      "gsm": { "value": 140, "uom": "g/m²" }, "paperType": "Semichemical"     },
+        { "layer": "liner-bottom", "gsm": { "value": 200, "uom": "g/m²" }, "paperType": "Kraftliner Brown" }
+      ]
+    },
+
+    "machineSettings": {
+      "taskRef":      "TASK-FFG-001",
+      "stageNo":      1,
+      "outputWidth":  { "value": 736,  "uom": "mm" },
+      "outputLength": { "value": 600,  "uom": "mm" },
+      "infeedSettings": {
+        "active":      true,
+        "feedType":    "vacuum",
+        "inputWidth":  { "value": 1480, "uom": "mm" },
+        "inputLength": { "value": 1200, "uom": "mm" },
+        "numberIn":    1
+      },
+      "speed": {
+        "uom":       "pcs/h",
+        "target":    9000,
+        "scheduled": 8500
+      },
+      "setupDuration": {
+        "uom":       "s",
+        "target":    300,
+        "scheduled": 420
+      }
+    },
+
+    "periphery": [
+      {
+        "deviceId":   "print-1",
+        "deviceType": "flexo-print",
+        "settings": {
+          "active":              true,
+          "color":               { "value": "FF1B1B1B", "uom": "ARGB" },
+          "inkName":             "Process Black",
+          "plateId":             "PLT-4711-BLK",
+          "position":            { "value": 1, "uom": "station" },
+          "register":            { "value": 0.5, "uom": "mm" },
+          "cylinderCentering":   { "value": 0,   "uom": "mm" },
+          "cylinderCalibration": { "value": 0.2, "uom": "mm" },
+          "aniloxCalibration":   { "value": 0,   "uom": "mm" },
+          "useDryer":            true,
+          "plateHeight":         { "value": 3.18, "uom": "mm" }
+        }
+      },
+      {
+        "deviceId":   "print-2",
+        "deviceType": "flexo-print",
+        "settings": {
+          "active":              true,
+          "color":               { "value": "FFCC0000", "uom": "ARGB" },
+          "inkName":             "Pantone 485 Red",
+          "plateId":             "PLT-4711-RED",
+          "position":            { "value": 2, "uom": "station" },
+          "register":            { "value": 0.3, "uom": "mm" },
+          "cylinderCentering":   { "value": 0,   "uom": "mm" },
+          "cylinderCalibration": { "value": 0.2, "uom": "mm" },
+          "aniloxCalibration":   { "value": 0,   "uom": "mm" },
+          "useDryer":            true,
+          "plateHeight":         { "value": 3.18, "uom": "mm" }
+        }
+      },
+      {
+        "deviceId":   "digiprint",
+        "deviceType": "digital-inkjet",
+        "settings": {
+          "active":          false,
+          "printFileUrl":    "",
+          "printWidth":      { "value": 0, "uom": "mm" },
+          "printHeight":     { "value": 0, "uom": "mm" },
+          "numberOfCopies":  0,
+          "colorCorrection": null,
+          "resolution":      { "value": 0, "uom": "dpi" },
+          "substrate":       null,
+          "orientation":     "TOP",
+          "leadIn":          { "value": 0, "uom": "mm" },
+          "leadOut":         { "value": 0, "uom": "mm" }
+        }
+      },
+      {
+        "deviceId":   "diecut",
+        "deviceType": "die-cutter",
+        "settings": {
+          "active":        true,
+          "cutterType":    "rotary",
+          "upsWidth":      2,
+          "upsLength":     1,
+          "toolRef":       "DIE-4711-0201",
+          "diePressure":   { "value": 14.5, "uom": "kN" },
+          "cuttingForce":  { "value": 12.0, "uom": "kN" },
+          "offsetScoring": { "value": 0.5,  "uom": "mm" },
+          "scores": [
+            { "scoreId": 1, "scoreType": "V-cut",  "position": { "value": 115,  "uom": "mm" } },
+            { "scoreId": 2, "scoreType": "V-cut",  "position": { "value": 330,  "uom": "mm" } },
+            { "scoreId": 3, "scoreType": "V-cut",  "position": { "value": 540,  "uom": "mm" } },
+            { "scoreId": 4, "scoreType": "V-cut",  "position": { "value": 695,  "uom": "mm" } }
+          ]
+        }
+      },
+      {
+        "deviceId":   "folder-gluer",
+        "deviceType": "folder-gluer",
+        "settings": {
+          "active":     true,
+          "glueType":   1,
+          "glueStyle":  "GI",
+          "glueAmount": { "value": 4.5, "uom": "g/m²" }
+        }
+      },
+      {
+        "deviceId":   "stitcher",
+        "deviceType": "stitcher",
+        "settings": {
+          "active":     false,
+          "stitchType": 0
+        }
+      },
+      {
+        "deviceId":   "taper",
+        "deviceType": "taper",
+        "settings": {
+          "active":   false,
+          "tapeType": ""
+        }
+      },
+      {
+        "deviceId":   "bundlestrap",
+        "deviceType": "bundle-strapper",
+        "settings": {
+          "active":                true,
+          "itemsPerBundle":        { "value": 25,  "uom": "pcs" },
+          "bundleWidth":           { "value": 750, "uom": "mm"  },
+          "bundleHeight":          { "value": 380, "uom": "mm"  },
+          "bundlePositionLateral": { "value": 375, "uom": "mm"  }
+        }
+      },
+      {
+        "deviceId":   "logistics",
+        "deviceType": "palletizer",
+        "settings": {
+          "active":          true,
+          "palletType":      1,
+          "palletLength":    { "value": 1200, "uom": "mm" },
+          "palletWidth":     { "value": 800,  "uom": "mm" },
+          "maxHeight":       { "value": 1400, "uom": "mm" },
+          "itemsPerPallet":  { "value": 200,  "uom": "pcs" },
+          "numberOfLayers":  8,
+          "packetsPerLayer": 4,
+          "compositionRef":  "COMP-0201-EUR-200",
+          "interleaves":     false,
+          "strapping": {
+            "active":         true,
+            "positions":      [400, 800],
+            "numberOfStraps": 2,
+            "pressure":       { "value": 2.5, "uom": "kN" },
+            "programId":      null
+          },
+          "wrapping": {
+            "active":    true,
+            "programId": "WRAP-STD-01",
+            "wrapType":  1
+          },
+          "counterPallet":    false,
+          "coverSheet":       true,
+          "bottomSheet":      true,
+          "cornerProtection": false,
+          "label": {
+            "position": "OS-front",
+            "data":     "JOB-2026-4711"
+          }
+        }
+      }
+    ]
+
+  }
+}

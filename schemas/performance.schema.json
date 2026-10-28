@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "cosi:performance-payload:1.0",
+  "title": "COSI — Performance Payload",
+  "description": "Payload for Performance messages (assetClass=performance). Validated as the payload property of the message envelope.",
+  "type": "object",
+  "required": ["speed", "inputs", "outputs"],
+
+  "$defs": {
+
+    "Quantity": { "$ref": "cosi:common-defs:1.0#/$defs/Quantity" },
+
+    "StreamItem": {
+      "description": "One input or output stream. Quantities are cumulative for the identified scope and counting period, regardless of hbt/cos trigger. Compare compatible readings; do not add successive totals. Article change alone does not reset a counter. See Technical Guide § 3.5.",
+      "type": "object",
+      "properties": {
+        "name":          { "type": ["string", "null"] },
+        "streamId":      { "type": ["string", "null"], "description": "Machine-internal stream identifier." },
+        "jobRef":        { "type": ["string", "null"] },
+        "articleRef":    { "type": ["string", "null"] },
+        "area":          { "$ref": "#/$defs/Quantity", "description": "Area in m²." },
+        "weight":        { "$ref": "#/$defs/Quantity", "description": "Weight in metric tonnes (t)." },
+        "runningLength": { "$ref": "#/$defs/Quantity", "description": "Running length in m." },
+        "pieces":        { "$ref": "#/$defs/Quantity", "description": "Cumulative discrete units at the defined counting point; use a consistent unit and counting basis within the period." },
+        "stacks":        { "$ref": "#/$defs/Quantity", "description": "Cumulative count of physical stacks, not sheets per stack." }
+      },
+      "additionalProperties": false
+    },
+
+    "EnergyItem": {
+      "description": "Cumulative resource counters for the identified machine, stream or job and counting period. Distinguish measured totals from allocated shares; do not add shares to their source total. Reporting measured totals alone is permitted.",
+      "type": "object",
+      "properties": {
+        "name":        { "type": ["string", "null"] },
+        "streamId":    { "type": ["string", "null"] },
+        "jobRef":      { "type": ["string", "null"] },
+        "articleRef":  { "type": ["string", "null"] },
+        "water":       { "type": "object", "allOf": [{ "$ref": "#/$defs/Quantity" }], "properties": { "uom": { "const": "m³"     } } },
+        "electricity": { "type": "object", "allOf": [{ "$ref": "#/$defs/Quantity" }], "properties": { "uom": { "const": "Wh"     } } },
+        "steam":       { "type": "object", "allOf": [{ "$ref": "#/$defs/Quantity" }], "properties": { "uom": { "const": "kg"     } } },
+        "air":         { "type": "object", "allOf": [{ "$ref": "#/$defs/Quantity" }], "properties": { "uom": { "const": "m³"     } } },
+        "stacks":      { "type": "object", "allOf": [{ "$ref": "#/$defs/Quantity" }], "properties": { "uom": { "const": "stacks" } }, "description": "Cumulative physical stack count for the identified scope and period; not sheets per stack." }
+      },
+      "additionalProperties": false
+    },
+
+    "Speed": {
+      "description": "Current and target machine speed. The target baseline is supplied by ERP/MES according to the plant's business rules; COSI does not prescribe its calculation method.",
+      "type": "object",
+      "required": ["current", "uom"],
+      "properties": {
+        "current": { "type": "number", "minimum": 0 },
+        "target":  { "type": "number", "minimum": 0 },
+        "uom": {
+          "type": "string",
+          "enum": ["pcs/h", "m/min"],
+          "description": "pcs/h for converting equipment; m/min for corrugators."
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "LogisticsStatusItem": {
+      "description": "Status of one logistics conveyor or buffer section. Quantities describe current contents at observation time, not cumulative throughput. stacks counts physical stacks.",
+      "type": "object",
+      "required": ["statusId"],
+      "properties": {
+        "name":          { "type": ["string", "null"] },
+        "streamId":      { "type": ["string", "null"] },
+        "statusId":      { "type": "string" },
+        "movement": {
+          "type": "string",
+          "enum": ["running", "stopped", "moving-left", "moving-right", "moving-forward", "moving-backward", "rotate-clockwise", "rotate-counterclockwise"],
+          "description": "Optional movement status, subject to supplier/customer agreement. When provided, use the defined values; see message-properties.md."
+        },
+        "articleRef":    { "type": ["string", "null"] },
+        "area":          { "$ref": "#/$defs/Quantity" },
+        "weight":        { "$ref": "#/$defs/Quantity" },
+        "runningLength": { "$ref": "#/$defs/Quantity" },
+        "pieces":        { "$ref": "#/$defs/Quantity" },
+        "stacks":        { "$ref": "#/$defs/Quantity" }
+      },
+      "additionalProperties": false
+    },
+
+    "DiePressureItem": {
+      "description": "Die pressure at a given time during production of the job, in kN.",
+      "type": "object",
+      "allOf": [{ "$ref": "#/$defs/Quantity" }],
+      "properties": { "uom": { "const": "kN" } }
+    }
+
+  },
+
+  "properties": {
+
+    "speed": {
+      "oneOf": [
+        { "$ref": "#/$defs/Speed" },
+        { "type": "null" }
+      ],
+      "description": "Current and target speed. Null when unavailable or not applicable. Zero is an actual reported speed, not a missing value."
+    },
+
+    "energy": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/EnergyItem" },
+      "description": "Energy and resource consumption counters. One entry per stream or job."
+    },
+
+    "inputs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/StreamItem" },
+      "description": "Consumed material streams (raw material infeed). Scope: roll stand to stacker for corrugators; pre-prefeeder to post-palletizer for converting."
+    },
+
+    "outputs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/StreamItem" },
+      "description": "Produced material streams (finished goods outfeed)."
+    },
+
+    "logisticsStatus": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/LogisticsStatusItem" },
+      "description": "Optional: status of logistics conveyor and buffer sections."
+    },
+
+    "diePressure": {
+      "$ref": "#/$defs/DiePressureItem",
+      "description": "Optional: die pressure reading for flat-bed die cutters having such option, in kN."
+    }
+
+  },
+
+  "additionalProperties": false
+}

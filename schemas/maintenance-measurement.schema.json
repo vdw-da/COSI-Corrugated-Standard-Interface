@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "cosi:maintenance-measurement-payload:1.0",
+  "title": "COSI — Maintenance Measurement Payload",
+  "description": "Payload for maintenance-measurement messages (assetClass=maintenance-measurement). Carries a measured value against upper/lower limits with fault classification and a required document-reference object whose fields may be null.",
+  "type": "object",
+  "required": ["componentId", "componentName", "measuredValue", "upperLimit", "lowerLimit", "failure", "documentRef"],
+
+  "$defs": {
+
+    "MeasuredValue": {
+      "description": "A measurement with its unit of measure.",
+      "type": "object",
+      "required": ["value", "uom"],
+      "properties": {
+        "value": { "type": "number" },
+        "uom":   { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+
+    "LimitValue": {
+      "description": "A tolerance limit. value and uom are null when the limit is not defined.",
+      "type": "object",
+      "required": ["value", "uom"],
+      "properties": {
+        "value": { "type": ["number", "null"] },
+        "uom":   { "type": ["string", "null"] }
+      },
+      "additionalProperties": false
+    }
+
+  },
+
+  "properties": {
+
+    "componentId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier of the component being measured."
+    },
+
+    "componentName": {
+      "type": "string",
+      "description": "Human-readable component name including location (e.g., 'SF1 Pressure Roll — Drive-Side Bearing')."
+    },
+
+    "measuredValue": {
+      "$ref": "#/$defs/MeasuredValue",
+      "description": "Value observed at the original envelope timestamp. This message reports an observation, not an open/update/clear fault lifecycle."
+    },
+
+    "upperLimit": {
+      "$ref": "#/$defs/LimitValue",
+      "description": "Upper tolerance bound. Null value when no upper limit is defined."
+    },
+
+    "lowerLimit": {
+      "$ref": "#/$defs/LimitValue",
+      "description": "Lower tolerance bound. Null value when no lower limit is defined."
+    },
+
+    "failure": {
+      "type": "object",
+      "required": ["faultCode", "descLocalLang", "descEN", "severity"],
+      "properties": {
+        "faultCode": {
+          "type": ["string", "null"],
+          "enum": [null, "AIR", "BRD", "CLW", "DOP", "ELP", "ELU", "ERO", "FOF", "FOV", "FTC",
+                   "FTF", "FTI", "FTO", "FTR", "FTS", "HIO", "ILP", "ILU", "INL", "LCP",
+                   "LOO", "NOI", "OHE", "OTH", "PCL", "PDE", "PLU", "POW", "PTF", "SER",
+                   "SHH", "SLL", "SLP", "SPO", "STD", "STP", "UNK", "UST", "VIB", "VLO"],
+          "description": "Failure mode code from docs/corrugated-faults.md (closed set for v1.0). Null when the measurement is within limits."
+        },
+        "internalCode": {
+          "type": ["string", "null"],
+          "description": "Optional machine-vendor-specific internal fault code."
+        },
+        "descLocalLang": {
+          "type": ["string", "null"],
+          "description": "Fault description in the local plant language."
+        },
+        "descEN": {
+          "type": ["string", "null"],
+          "description": "Fault description in English."
+        },
+        "severity": {
+          "type": ["string", "null"],
+          "enum": ["info", "warning", "critical", null],
+          "description": "info = minor, no production loss. warning = operator attention required. critical = immediate action / auto-stop."
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "documentRef": {
+      "type": "object",
+      "required": ["uniqueRef", "documentLink"],
+      "properties": {
+        "uniqueRef":    { "type": ["string", "null"], "description": "Reference to the maintenance manual document. Null if none available." },
+        "documentLink": { "type": ["string", "null"], "description": "URI or file-system path. Null if none available." }
+      },
+      "additionalProperties": false,
+      "description": "Required document-reference object; its fields may be null when no link is available. Access remains subject to the IT/OT boundary rules."
+    }
+
+  },
+
+  "additionalProperties": false
+}

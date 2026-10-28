@@ -1,0 +1,58 @@
+{
+  "_comment": "Option A — envelope-level unitSystem. Metric example with flag explicitly set, and an imperial sibling. Payload uom is still per-value; envelope flag is hint + default.",
+
+  "metricExample": {
+    "messageID":   "3fa6f4e2-1c2d-3b3e-9a1f-2d7c8e5b0a4d",
+    "assetClass":  "performance",
+    "messageType": "hbt",
+    "machineId":   "CORR-LINE-01",
+    "timestamp":   "2026-05-04T06:30:00.000Z",
+    "status":      "run",
+    "unitSystem":  "metric",
+    "payload": {
+      "speed":  { "uom": "m/min", "current": 182, "target": 200 },
+      "energy": [
+        {
+          "name":        "Main Line",
+          "water":       { "value": 1.24, "uom": "m3" },
+          "electricity": { "value": 5200, "uom": "Wh" },
+          "steam":       { "value": 340,  "uom": "kg" }
+        }
+      ]
+    }
+  },
+
+  "imperialExample": {
+    "messageID":   "9b5c7a30-2e10-3a44-9f01-4d2a6b8c1e5f",
+    "assetClass":  "performance",
+    "messageType": "hbt",
+    "machineId":   "US-CORR-12",
+    "timestamp":   "2026-05-04T06:30:00.000Z",
+    "status":      "run",
+    "unitSystem":  "imperial",
+    "payload": {
+      "speed":  { "uom": "ft/min", "current": 600, "target": 660 },
+      "energy": [
+        {
+          "name":        "Main Line",
+          "water":       { "value": 327,   "uom": "gal_us" },
+          "electricity": { "value": 17750, "uom": "BTU"    },
+          "steam":       { "value": 750,   "uom": "lb"     }
+        }
+      ]
+    }
+  },
+
+  "omittedDefaultsToMetric": {
+    "messageID":   "1a2b3c4d-5e6f-3a8b-9c0d-1e2f3a4b5c6d",
+    "assetClass":  "performance",
+    "messageType": "hbt",
+    "machineId":   "CORR-LINE-02",
+    "timestamp":   "2026-05-04T06:30:00.000Z",
+    "status":      "run",
+    "_note":       "no unitSystem field — consumer assumes metric",
+    "payload": {
+      "speed":  { "uom": "m/min", "current": 175, "target": 195 }
+    }
+  }
+}

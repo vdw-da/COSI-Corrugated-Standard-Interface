@@ -1,0 +1,24 @@
+{
+  "messageID":   "8fa1c8a5-3f74-5d0e-9d7f-a14a7ce9f603",
+  "assetClass":  "queue",
+  "messageType": "cos",
+  "machineId":   "CORR-LINE-01",
+  "timestamp":   "2026-07-14T09:40:00.000Z",
+  "status":      "setup",
+  "payload": {
+    "queueList": [
+      {
+        "setupRef": "SETUP-2026-0881",
+        "sequenceNumber": 0
+      },
+      {
+        "setupRef": "SETUP-2026-0882",
+        "sequenceNumber": 1
+      },
+      {
+        "setupRef": "SETUP-2026-0883",
+        "sequenceNumber": 2
+      }
+    ]
+  }
+}

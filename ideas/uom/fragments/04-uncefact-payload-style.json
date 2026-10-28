@@ -1,0 +1,34 @@
+{
+  "_comment": "Option D — UN/CEFACT codes in payload. Shown for comparison. Rejected for primary use: hurts human readability and several domain units have no Rec 20 code.",
+
+  "example": {
+    "messageID":   "3fa6f4e2-1c2d-3b3e-9a1f-2d7c8e5b0a4d",
+    "assetClass":  "performance",
+    "messageType": "hbt",
+    "machineId":   "CORR-LINE-01",
+    "timestamp":   "2026-05-04T06:30:00.000Z",
+    "status":      "run",
+    "payload": {
+      "speed":  { "current": 182, "target": 200, "uom": "2X" },
+      "energy": [
+        {
+          "name":        "Main Line",
+          "water":       { "value": 1.24, "uom": "MTQ" },
+          "electricity": { "value": 5200, "uom": "WHR" },
+          "steam":       { "value": 340,  "uom": "KGM" }
+        }
+      ],
+      "inputs": [
+        {
+          "name":          "Top Liner — Roll 2",
+          "area":          { "value": 19240, "uom": "MTK" },
+          "weight":        { "value": 4.04,  "uom": "TNE" },
+          "runningLength": { "value": 13032, "uom": "MTR" }
+        }
+      ]
+    }
+  },
+
+  "_readabilityCheck": "A human reading 'uom: 2X' has to look up that 2X = m/min. 'uom: m/min' needs no lookup. For a standard whose audience is implementers, this matters.",
+  "_gapsInRec20": "%RH, dpi, dE2000, pcs/h have no native Rec 20 codes — we'd be inventing our own extensions and end up with two systems."
+}

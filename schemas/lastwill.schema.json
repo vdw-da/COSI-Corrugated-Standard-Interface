@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "cosi:lastwill-payload:1.0",
+  "title": "COSI — Last Will Payload",
+  "description": "Empty payload for the optional OT-equipment Last Will. Notification data is carried by the envelope (ADR-000022).",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

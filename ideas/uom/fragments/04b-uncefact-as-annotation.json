@@ -1,0 +1,39 @@
+{
+  "_comment": "Option D-variant — UN/CEFACT codes as schema-side annotation only. Payload stays ISO-symbol; schema carries the mapping for OPC UA round-trip.",
+
+  "schemaSide": {
+    "$defs": {
+      "Length": {
+        "type": "string",
+        "enum": ["mm", "cm", "m", "km", "in", "ft", "yd"],
+        "x-uncefact": {
+          "mm": "MMT",
+          "cm": "CMT",
+          "m":  "MTR",
+          "km": "KMT",
+          "in": "INH",
+          "ft": "FOT",
+          "yd": "YRD"
+        }
+      },
+      "Mass": {
+        "type": "string",
+        "enum": ["g", "kg", "t", "oz", "lb"],
+        "x-uncefact": { "g": "GRM", "kg": "KGM", "t": "TNE", "oz": "ONZ", "lb": "LBR" }
+      },
+      "Energy": {
+        "type": "string",
+        "enum": ["Wh", "kWh", "MJ", "BTU"],
+        "x-uncefact": { "Wh": "WHR", "kWh": "KWH", "MJ": "MJ", "BTU": "BTU" }
+      }
+    }
+  },
+
+  "payloadSide_unchanged": {
+    "water":       { "value": 1.24, "uom": "m3" },
+    "electricity": { "value": 5200, "uom": "Wh" },
+    "steam":       { "value": 340,  "uom": "kg" }
+  },
+
+  "_consumerWantingOpcUaInterop": "Look up uom in the schema's x-uncefact table → emit EUInformation { unitId } downstream. Lossless round-trip without polluting the wire format."
+}

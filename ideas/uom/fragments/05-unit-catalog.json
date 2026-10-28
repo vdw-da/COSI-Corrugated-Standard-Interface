@@ -1,0 +1,130 @@
+{
+  "$schema":     "https://json-schema.org/draft/2020-12/schema",
+  "$id":         "cosi:dimensions:1.0",
+  "title":       "COSI — Dimension Catalog (DRAFT)",
+  "description": "Single source of truth for physical dimensions and their admissible units (metric + imperial). Asset-class schemas $ref into here.",
+
+  "$defs": {
+
+    "Length": {
+      "type": "string",
+      "description": "Linear length. Canonical SI: m.",
+      "enum": ["mm", "cm", "m", "km", "in", "ft", "yd"],
+      "x-uncefact": { "mm": "MMT", "cm": "CMT", "m": "MTR", "km": "KMT", "in": "INH", "ft": "FOT", "yd": "YRD" },
+      "x-toSI":     { "mm": 0.001, "cm": 0.01, "m": 1, "km": 1000, "in": 0.0254, "ft": 0.3048, "yd": 0.9144 }
+    },
+
+    "Area": {
+      "type": "string",
+      "description": "Surface area. Canonical SI: m².",
+      "enum": ["mm²", "cm²", "m²", "in²", "ft²"],
+      "x-uncefact": { "mm²": "MMK", "cm²": "CMK", "m²": "MTK", "in²": "INK", "ft²": "FTK" }
+    },
+
+    "Volume": {
+      "type": "string",
+      "description": "Volume. Canonical SI: m³.",
+      "enum": ["mL", "L", "m3", "ft3", "gal_us"],
+      "x-uncefact": { "mL": "MLT", "L": "LTR", "m3": "MTQ", "ft3": "FTQ", "gal_us": "GLL" }
+    },
+
+    "Mass": {
+      "type": "string",
+      "description": "Mass. Canonical SI: kg.",
+      "enum": ["g", "kg", "t", "oz", "lb"],
+      "x-uncefact": { "g": "GRM", "kg": "KGM", "t": "TNE", "oz": "ONZ", "lb": "LBR" }
+    },
+
+    "LengthPerTime": {
+      "type": "string",
+      "description": "Linear speed (e.g. corrugator line speed). Canonical SI: m/s.",
+      "enum": ["m/s", "m/min", "ft/min", "fpm"],
+      "x-uncefact": { "m/s": "MTS", "m/min": "2X", "ft/min": "FR", "fpm": "FR" }
+    },
+
+    "CountPerTime": {
+      "type": "string",
+      "description": "Throughput (e.g. converting line output). No standard SI; pcs/s is canonical for this standard.",
+      "enum": ["pcs/s", "pcs/min", "pcs/h"]
+    },
+
+    "Temperature": {
+      "type": "string",
+      "description": "Temperature. Canonical SI: K. Industrial preference: °C.",
+      "enum": ["K", "°C", "°F"],
+      "x-uncefact": { "K": "KEL", "°C": "CEL", "°F": "FAH" }
+    },
+
+    "Energy": {
+      "type": "string",
+      "description": "Energy. Canonical SI: J. Industrial preference: kWh / Wh.",
+      "enum": ["Wh", "kWh", "MJ", "BTU"],
+      "x-uncefact": { "Wh": "WHR", "kWh": "KWH", "MJ": "MJ", "BTU": "BTU" }
+    },
+
+    "Pressure": {
+      "type": "string",
+      "description": "Pressure. Canonical SI: Pa.",
+      "enum": ["Pa", "kPa", "bar", "psi"],
+      "x-uncefact": { "Pa": "PAL", "kPa": "KPA", "bar": "BAR", "psi": "PS" }
+    },
+
+    "Force": {
+      "type": "string",
+      "description": "Force. Canonical SI: N.",
+      "enum": ["N", "kN", "lbf"],
+      "x-uncefact": { "N": "NEW", "kN": "KNT", "lbf": "C62" }
+    },
+
+    "Humidity": {
+      "type": "string",
+      "description": "Relative humidity. Dimensionless ratio expressed as percentage.",
+      "enum": ["%RH"]
+    },
+
+    "Grammage": {
+      "type": "string",
+      "description": "Mass per unit area (paper grammage). Canonical SI: g/m².",
+      "enum": ["g/m²", "oz/ft²"],
+      "x-uncefact": { "g/m²": "GM", "oz/ft²": "37" }
+    },
+
+    "ColourDistance": {
+      "type": "string",
+      "description": "Colour difference metric. No SI equivalent; preserve as-is.",
+      "enum": ["dE2000", "dE94", "dE76"]
+    },
+
+    "PrintResolution": {
+      "type": "string",
+      "description": "Print resolution.",
+      "enum": ["dpi"]
+    },
+
+    "Viscosity": {
+      "type": "string",
+      "description": "Industrial viscosity. 's' is Ford-cup seconds (industry tradition).",
+      "enum": ["s", "cP", "mPa·s"]
+    },
+
+    "Duration": {
+      "type": "string",
+      "description": "Time duration. Canonical SI: s.",
+      "enum": ["s", "min", "h"],
+      "x-uncefact": { "s": "SEC", "min": "MIN", "h": "HUR" }
+    },
+
+    "Ratio": {
+      "type": "string",
+      "description": "Dimensionless ratio. '1' = unitless number; '%' = percent.",
+      "enum": ["1", "%"],
+      "x-uncefact": { "%": "P1" }
+    },
+
+    "Count": {
+      "type": "string",
+      "description": "Discrete count of items. Domain-specific symbols.",
+      "enum": ["pcs", "stacks", "rolls", "sheets", "pallets"]
+    }
+  }
+}

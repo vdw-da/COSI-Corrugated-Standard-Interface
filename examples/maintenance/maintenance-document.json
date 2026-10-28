@@ -1,0 +1,70 @@
+{
+  "messageID":     "b9c8d7e6-f5a4-5b2c-9d0e-9f8a7b6c5d4e",
+  "assetClass":    "maintenance-document",
+  "schemaId":      "cosi:maintenance-document-payload:1.0",
+  "messageType":   "onetime",
+  "machineId":     "corr-line-01",
+  "timestamp":     "2026-05-04T05:00:00.000Z",
+  "status":        "maintenance",
+  "payload": {
+
+    "componentId": "SF1-PRES-ROLL-01",
+
+    "manualDocs": [
+      {
+        "documentRef": {
+          "uniqueRef":    "DOC-SF1-MAIN-001",
+          "documentLink": "file:///manuals/corr-line-01/SF1/maintenance-pressure-roll.pdf"
+        },
+        "validFrom": "2025-06-01T00:00:00.000Z"
+      },
+      {
+        "documentRef": {
+          "uniqueRef":    "DOC-SF1-SAFETY-001",
+          "documentLink": "file:///manuals/corr-line-01/SF1/safety-single-facer.pdf"
+        },
+        "validFrom": "2024-01-15T00:00:00.000Z"
+      }
+    ],
+
+    "serviceTasks": [
+      {
+        "taskId":        "SRV-SF1-GREASE-BEARING",
+        "frequency":     { "value": 500, "uom": "h" },
+        "counterSource": "SF1 drive runtime hours",
+        "documentRef": {
+          "uniqueRef":    "DOC-SF1-GREASE-001",
+          "documentLink": "file:///manuals/corr-line-01/SF1/grease-pressure-roll-bearing.pdf"
+        }
+      },
+      {
+        "taskId":        "SRV-SF1-REPLACE-BELT",
+        "frequency":     { "value": 8000000, "uom": "cycles" },
+        "counterSource": "SF1 corrugator cycle counter",
+        "documentRef": {
+          "uniqueRef":    "DOC-SF1-BELT-001",
+          "documentLink": "file:///manuals/corr-line-01/SF1/replace-drive-belt.pdf"
+        }
+      },
+      {
+        "taskId":        "SRV-SF1-INSPECT-FLUTES",
+        "frequency":     { "value": 2000, "uom": "h" },
+        "counterSource": "SF1 drive runtime hours",
+        "documentRef": {
+          "uniqueRef":    "DOC-SF1-FLUTE-001",
+          "documentLink": "file:///manuals/corr-line-01/SF1/inspect-fluting-roll.pdf"
+        }
+      },
+      {
+        "taskId":        "SRV-SF1-REPLACE-GLUE-ROLL",
+        "frequency":     { "value": 1500000, "uom": "m²" },
+        "counterSource": "SF1 board area counter",
+        "documentRef": {
+          "uniqueRef":    "DOC-SF1-GLUEROLL-001",
+          "documentLink": "file:///manuals/corr-line-01/SF1/replace-glue-roll.pdf"
+        }
+      }
+    ]
+
+  }
+}

@@ -1,0 +1,16 @@
+Third-party industry logos
+
+These logo files identify the organisations named in the Technical Guide.
+Copyright and trademark rights remain with their respective owners. These
+third-party assets are not offered under the repository's Apache License 2.0;
+no permission to reuse the marks is granted by their inclusion here.
+Source URLs, company-supplied artwork provenance and retrieval details are in sources.json.
+Artwork is not evidence of certification or implementation availability.
+
+The Technical Guide records expressions of commitment to COSI 1.0. Listing does
+not constitute endorsement or certification by VDW of a company, product or
+service, or a guarantee of implementation, availability or performance. VDW
+does not undertake to fulfil any organisation's implementation commitments.
+For corrections or rights-related concerns: transparente-daten@vdw-da.de.
+Nothing in this notice excludes or limits liability where this is not
+permitted by applicable law.
